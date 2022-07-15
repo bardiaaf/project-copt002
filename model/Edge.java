@@ -36,8 +36,6 @@ public class Edge implements Comparable<Edge> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Edge edge = (Edge) o;
-        return weight == edge.weight &&
-                v.equals(edge.v) &&
-                u.equals(edge.u);
+        return this.compareTo(edge) == 0;
     }
 }

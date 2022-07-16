@@ -47,6 +47,8 @@ public class K_Exchange {
     }
 
     public void close(){
+        // baraye save kardane result inja ye kari konim
+
         if(reds.size() == 1)
             reds.clear();
         else
@@ -64,5 +66,9 @@ public class K_Exchange {
     public static void setGraph(Graph graph) {
         if(K_Exchange.graph == null)
             K_Exchange.graph = graph;
+    }
+
+    public K_Exchange copy() {
+        return this;
     }
 }

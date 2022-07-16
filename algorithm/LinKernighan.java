@@ -25,6 +25,7 @@ public class LinKernighan {
 
         for (int i=1;i<k;i++){
             applyStep(kExchange,i, k , currentVertex);
+            // update currentvertex
         }
 
     }

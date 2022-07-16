@@ -40,10 +40,12 @@ public class Graph {
     }
 
     public List<Edge> nearestNeighbors(Vertex v){
-        if (adj[v.id].size()<=5)
-            return adj[v.id];
-
         List<Edge> result= new ArrayList<>();
+        if (adj[v.id].size()<=5){
+            result.addAll(adj[v.id]);
+            return result;
+        }
+
         for (int i=0;i<5;i++)
             result.add(adj[v.id].get(i));
         return result;

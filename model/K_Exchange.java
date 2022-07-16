@@ -10,9 +10,10 @@ public class K_Exchange {
     public final List<Vertex> t = new ArrayList<>();
     private final Tour tour;
     private final boolean direction;
-    private int gain;
+    private final int gain;
 
-    public K_Exchange(Tour tour, Vertex first, Vertex second) {
+    public K_Exchange(Graph graph, Tour tour, Vertex first, Vertex second) {
+        setGraph(graph);
         this.tour = tour;
         reds.add(graph.getEdge(first, second));
         t.add(first);
@@ -21,19 +22,28 @@ public class K_Exchange {
         direction = tour.next(first).equals(second);
     }
 
-    public boolean add(Edge blue) {
+    private K_Exchange(Tour tour, boolean direction,
+                       List<Edge> blues, List<Edge> reds, List<Vertex> t,
+                       Vertex t_n_1, Vertex t_n, int gain) {
+        this.tour = tour;
+        this.direction = direction;
+        this.blues.addAll(blues);
+        this.reds.addAll(reds);
+        this.t.addAll(t);
+        blues.add(graph.getEdge(t.get(t.size()-1), t_n_1));
+        reds.add(graph.getEdge(t_n_1, t_n));
+        t.add(t_n_1);
+        t.add(t_n);
+        this.gain = gain;
+    }
+
+    public K_Exchange add(Edge blue) {
         Vertex t_n_1 = blue.u.equals(t.get(t.size()-1)) ? blue.v : blue.u;
         Vertex t_n = direction ? tour.next(t_n_1) : tour.previous(t_n_1);
         int deltaGain = deltaGain(t_n_1, t_n);
-        if(deltaGain + gain > 0){
-            blues.add(graph.getEdge(t.get(t.size()-1), t_n_1));
-            reds.add(graph.getEdge(t_n_1, t_n));
-            t.add(t_n_1);
-            t.add(t_n);
-            gain += deltaGain;
-            return true;
-        }
-        return false;
+        if(deltaGain + gain > 0)
+            return new K_Exchange(tour, direction, blues, reds, t, t_n_1, t_n, gain + deltaGain);
+        return null;
     }
 
     private int deltaGain(Vertex t_n_1, Vertex t_n) {
@@ -47,8 +57,6 @@ public class K_Exchange {
     }
 
     public void close(){
-        // baraye save kardane result inja ye kari konim
-
         if(reds.size() == 1)
             reds.clear();
         else
@@ -68,7 +76,7 @@ public class K_Exchange {
             K_Exchange.graph = graph;
     }
 
-    public K_Exchange copy() {
-        return this;
+    public int getGain() {
+        return gain;
     }
 }

@@ -39,14 +39,14 @@ public class Graph {
         return vertices[i];
     }
 
-    public List<Edge> nearestNeighbors(Vertex v){
+    public List<Edge> nearestNeighbors(Vertex v, int l){
         List<Edge> result= new ArrayList<>();
-        if (adj[v.id].size()<=5){
+        if (adj[v.id].size()<=l){
             result.addAll(adj[v.id]);
             return result;
         }
 
-        for (int i=0;i<5;i++)
+        for (int i=0;i<l;i++)
             result.add(adj[v.id].get(i));
         return result;
     }

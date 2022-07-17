@@ -7,11 +7,8 @@ import java.util.List;
 
 public class LinKernighan {
 
-    // har chi gain bishtar bashe behtare
-    public static K_Exchange bestKExchange;
-
     // "l" is number of neighbors
-    public static void linKernighanIteration(Tour T, int k, int l){
+    public static Tour linKernighanIteration(Tour T, int k, int l){
         int bestGain=0;
         K_Exchange best = null;
         // for each starting vertex v
@@ -23,6 +20,10 @@ public class LinKernighan {
             }
         }
 
+        if (best==null)
+            return T;
+
+        return T.applyKExchange(best);
     }
 
     public static K_Exchange  linKernighanFirst(Tour T, int k, int l, Vertex first){
@@ -56,10 +57,13 @@ public class LinKernighan {
                     // che vaghti ke apply step mikoni va che vaghti ke miri toye else max bayad begirim ba ye best ii ke aval darim
                     if (step+1<k) {
                         step++; // for each read and blue together step++
-                        best = applyStep(newKExchange, step, k, l, newKExchange.t.get(newKExchange.t.size()-1));
+                        K_Exchange stepExchange = applyStep(newKExchange, step, k, l,
+                                newKExchange.t.get(newKExchange.t.size()-1));
+                        if (stepExchange.getGain() > best.getGain())
+                            best = stepExchange;
+
                     }
                     else{ // reached step k
-
                         if(newKExchange.getGain() > best.getGain()){
                             best = newKExchange;
                         }

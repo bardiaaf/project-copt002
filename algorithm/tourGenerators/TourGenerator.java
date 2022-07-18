@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TourGenerator {
+    protected final Graph graph;
+
+    public TourGenerator() {
+        this.graph = Graph.getInstance();
+    }
 
     public abstract Tour generateTour(Graph graph);
 }

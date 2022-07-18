@@ -12,8 +12,8 @@ public class K_Exchange {
     private final boolean direction;
     private final int gain;
 
-    public K_Exchange(Graph graph, Tour tour, Vertex first, Vertex second) {
-        setGraph(graph);
+    public K_Exchange(Tour tour, Vertex first, Vertex second) {
+        graph = Graph.getInstance();
         this.tour = tour;
         reds.add(graph.getEdge(first, second));
         t.add(first);
@@ -69,11 +69,6 @@ public class K_Exchange {
 
     public boolean containsBlue(Edge edge) {
         return blues.contains(edge);
-    }
-
-    public static void setGraph(Graph graph) {
-        if(K_Exchange.graph == null)
-            K_Exchange.graph = graph;
     }
 
     public int getGain() {

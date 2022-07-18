@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
-
-    public static Graph graph = null;
+    public static Graph instance = null;
 
     public final Vertex[] vertices;
     public final Edge[][] a;
     public final List<Edge>[] adj;
     public final int size;
 
-    public Graph(Edge[][] a) {
-        //singletone
-        this.graph = this;
-
+    private Graph(Edge[][] a) {
         vertices = new Vertex[a.length];
         size = a.length;
         for (int i = 0; i < a.length; i++)
@@ -31,6 +27,14 @@ public class Graph {
         }
     }
 
+    public static Graph getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(Edge[][] a) {
+        if(Graph.instance == null)
+            Graph.instance = new Graph(a);
+    }
 
     public int getSize(){
         return size;

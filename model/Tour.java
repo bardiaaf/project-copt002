@@ -10,6 +10,7 @@ public class Tour {
     private final Vertex[] previous;
 
     public Tour(List<Edge> edges) {
+        graph = Graph.getInstance();
         previous = new Vertex[edges.size()];
         next = new Vertex[edges.size()];
         Vertex[][] neighbors = new Vertex[edges.size()][2];
@@ -30,11 +31,6 @@ public class Tour {
             previous[cur.id] = prev;
             this.edges.add(graph.getEdge(cur,tmp));
         }
-    }
-
-    public static void setGraph(Graph graph) {
-        if(Tour.graph == null)
-            Tour.graph = graph;
     }
 
     public Vertex next(Vertex vertex){

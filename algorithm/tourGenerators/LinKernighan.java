@@ -9,6 +9,7 @@ public class LinKernighan extends TourGenerator {
     private static final int defaultRounds = 100, defaultK = 5, defaultL = 5;
 
     public LinKernighan(TourGenerator secondaryTourGenerator) {
+        super();
         this.secondaryTourGenerator = secondaryTourGenerator;
     }
 
@@ -29,8 +30,8 @@ public class LinKernighan extends TourGenerator {
         int bestGain = 0;
         K_Exchange best = null;
         // for each starting vertex v
-        for (int i = 0; i < Graph.graph.getSize(); i++) {
-            K_Exchange stepResult = linKernighanFirst(T, k, l, Graph.graph.getVertex(i));
+        for (int i = 0; i < graph.getSize(); i++) {
+            K_Exchange stepResult = linKernighanFirst(T, k, l, graph.getVertex(i));
             if (stepResult.getGain() > bestGain) {
                 best = stepResult;
                 bestGain = best.getGain();
@@ -54,13 +55,13 @@ public class LinKernighan extends TourGenerator {
     }
 
     public K_Exchange linKernighanSecond(Tour T, int k, int l, Vertex first, Vertex second) {
-        K_Exchange kExchange = new K_Exchange(Graph.graph, T, first, second);
+        K_Exchange kExchange = new K_Exchange(T, first, second);
 
         return applyStep(kExchange, 0, k, l, second);
     }
 
     private K_Exchange applyStep(K_Exchange kExchange, int step, int k, int l, Vertex currentVertex) {
-        List<Edge> list = Graph.graph.nearestNeighbors(currentVertex, l);
+        List<Edge> list = graph.nearestNeighbors(currentVertex, l);
 
         K_Exchange best = kExchange;
 

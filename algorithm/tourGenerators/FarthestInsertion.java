@@ -6,6 +6,7 @@ import model.Tour;
 import model.Vertex;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 public class FarthestInsertion extends TourGenerator {
@@ -33,20 +34,25 @@ public class FarthestInsertion extends TourGenerator {
             Edge e = remaining.last();
             Vertex v = selectedVertices.contains(e.v) ? e.u : e.v;
             selectedVertices.add(v);
+            List<Edge> deletions = new ArrayList<>();
+            List<Edge> additions = new ArrayList<>();
             remaining.remove(e);
             for (Edge edge: remaining) {
                 Vertex u = selectedVertices.contains(edge.v) ? edge.u : edge.v;
                 Edge newEdge = graph.getEdge(u,v);
                 if (edge.weight > newEdge.weight){
-                    remaining.remove(edge);
-                    remaining.add(newEdge);
+                    deletions.add(edge);
+                    additions.add(newEdge);
                 }
             }
+            deletions.forEach(remaining::remove);
+            remaining.addAll(additions);
             Edge min = edges.first();
             for (Edge edge: edges)
                 if (insertionCost(edge, v) < insertionCost(min, v))
                     min = edge;
-            edges.remove(min);
+            if(edges.size() > 1)
+                edges.remove(min);
             edges.add(graph.getEdge(min.v, v));
             edges.add(graph.getEdge(min.u, v));
         }

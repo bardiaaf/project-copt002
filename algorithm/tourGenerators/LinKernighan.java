@@ -74,8 +74,7 @@ public class LinKernighan extends TourGenerator {
                 if (newKExchange != null) {
                     // che vaghti ke apply step mikoni va che vaghti ke miri toye else max bayad begirim ba ye best ii ke aval darim
                     if (step + 1 < k) {
-                        step++; // for each read and blue together step++
-                        K_Exchange stepExchange = applyStep(newKExchange, step, k, l,
+                        K_Exchange stepExchange = applyStep(newKExchange, step+1, k, l,
                                 newKExchange.t.get(newKExchange.t.size() - 1));
                         if (stepExchange.getGain() > best.getGain())
                             best = stepExchange;

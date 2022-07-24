@@ -20,13 +20,17 @@ public class LinKernighan extends TourGenerator {
 
     public Tour generateTour(Graph graph, int rounds, int k, int l) {
         Tour res = secondaryTourGenerator.generateTour(graph);
-        for (int i = 0; i < rounds; i++)
-            res = linKernighanIteration(res, k, l);
+        for (int i = 0; i < rounds; i++) {
+            K_Exchange best = linKernighanIteration(res, k, l);
+            if(best == null)
+                break;
+            res = res.applyKExchange(best);
+        }
         return res;
     }
 
     // "l" is number of neighbors
-    public Tour linKernighanIteration(Tour T, int k, int l) {
+    public K_Exchange linKernighanIteration(Tour T, int k, int l) {
         int bestGain = 0;
         K_Exchange best = null;
         // for each starting vertex v
@@ -37,11 +41,7 @@ public class LinKernighan extends TourGenerator {
                 bestGain = best.getGain();
             }
         }
-
-        if (best == null)
-            return T;
-
-        return T.applyKExchange(best);
+        return best;
     }
 
     public K_Exchange linKernighanFirst(Tour T, int k, int l, Vertex first) {
@@ -57,7 +57,7 @@ public class LinKernighan extends TourGenerator {
     public K_Exchange linKernighanSecond(Tour T, int k, int l, Vertex first, Vertex second) {
         K_Exchange kExchange = new K_Exchange(T, first, second);
 
-        return applyStep(kExchange, 0, k, l, second);
+        return applyStep(kExchange, 1, k, l, second);
     }
 
     private K_Exchange applyStep(K_Exchange kExchange, int step, int k, int l, Vertex currentVertex) {

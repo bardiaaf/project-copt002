@@ -1,5 +1,6 @@
 import algorithm.tourGenerators.FarthestInsertion;
 import algorithm.tourGenerators.LinKernighan;
+import algorithm.tourGenerators.NearestNeighbor;
 import model.Edge;
 import model.Graph;
 import model.Tour;
@@ -17,7 +18,10 @@ public class Test {
     public static void main(String[] args) throws IOException {
 //        TSPInstance problem = new TSPInstance(new File("./data/tsp/pcb442.tsp"));
 //        problem.addTour(new File("./data/tsp/pcb442.opt.tour"));
-        TSPInstance problem = new TSPInstance(new File("./data/tsp/ym7663.tsp"));
+        String name = "uy734";
+        double best = 79114;
+        long startTime = System.currentTimeMillis();
+        TSPInstance problem = new TSPInstance(new File("./data/tsp/"+name+".tsp"));
 //        problem.addTour(new File("./data/tsp/eil101.opt.tour"));
 //        System.err.println(problem.getTours().get(0).distance(problem));
         DistanceTable distanceTable = problem.getDistanceTable();
@@ -37,17 +41,20 @@ public class Test {
         LinKernighan tourGenerator = new LinKernighan(new FarthestInsertion());
         Tour pre = new FarthestInsertion().generateTour(Graph.getInstance());
         System.out.println(pre.tsplibFormat().distance(problem));
-        Tour tour = tourGenerator.generateTour(Graph.getInstance(), 200, 6, 6);
+        Tour tour = tourGenerator.generateTour(Graph.getInstance(), 1000, 4, 5);
         System.out.println(tour.tsplibFormat().distance(problem));
-        TSPPanel panel = new TSPPanel(problem);
-        panel.displayTour(tour.tsplibFormat(), Color.BLUE);
-        JFrame frame = new JFrame(problem.getName());
-        frame.getContentPane().setLayout(new BorderLayout());
-        frame.getContentPane().add(panel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(500, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        System.out.println("name: "+name);
+        System.out.println("approx: "+(tour.tsplibFormat().distance(problem)/best));
+        System.out.println("time: "+(System.currentTimeMillis()-startTime)/1000L);
+//        TSPPanel panel = new TSPPanel(problem);
+//        panel.displayTour(tour.tsplibFormat(), Color.BLUE);
+//        JFrame frame = new JFrame(problem.getName());
+//        frame.getContentPane().setLayout(new BorderLayout());
+//        frame.getContentPane().add(panel, BorderLayout.CENTER);
+//        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        frame.setSize(500, 400);
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
     }
 
 }

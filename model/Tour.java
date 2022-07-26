@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Tour {
     private static Graph graph;
-    private final List<Edge> edges = new ArrayList<>();
+    public final List<Edge> edges = new ArrayList<>();
     private final Vertex[] next;
     private final Vertex[] previous;
 

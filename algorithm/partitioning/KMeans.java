@@ -1,5 +1,7 @@
 package algorithm.partitioning;
 
+import model.Vertex;
+
 import java.util.*;
 
 public class KMeans {
@@ -8,25 +10,22 @@ public class KMeans {
     private Double PRECISION;
     private int k;
 
-    public KMeans(int k, Double PRECISION){
+    public KMeans(int k, Double PRECISION, List<Vertex2D> points){
         this.PRECISION =PRECISION;
         this.k = k;
+        this.allPoints = points;
     }
 
 
-    // distance
-    public Double distance(Vertex2D v, Centroid c){
-         return Math.pow(v.x -c.x,2)+Math.pow(v.y -c.y, 2);
-    }
 
 
     // centroids
     public List<Centroid> randomCentroids() {
         List<Centroid> centroids = new ArrayList<>();
-        Random rand = new Random(allPoints.size());
+        Random rand = new Random();
 
-        for(int i=1; i< k ; i++){
-            Vertex2D v = allPoints.get(rand.nextInt());
+        for(int i=0; i< k ; i++){
+            Vertex2D v = allPoints.get(rand.nextInt(allPoints.size()));
             Centroid centroid = new Centroid(i, v.x+0.0, v.y+0.0);
             centroids.add(centroid);
         }
@@ -40,7 +39,7 @@ public class KMeans {
             int index = -1;
 
             for (int j=0;j<centroids.size();j++) {
-                Double dist =distance(allPoints.get(i), centroids.get(j));
+                Double dist =Centroid.distance(allPoints.get(i), centroids.get(j));
 
                 if (dist<minDist){
                     minDist = dist;
@@ -55,6 +54,10 @@ public class KMeans {
     public Double renewCenters(List<Centroid> centroids){
         // init clusters
         List<ArrayList<Vertex2D>> clusters = new ArrayList<>();
+
+        for (int i=0;i<k;i++){
+            clusters.add(new ArrayList<>());
+        }
         for (Vertex2D v:
              allPoints) {
             clusters.get(v.clusterNumber).add(v);
@@ -85,7 +88,7 @@ public class KMeans {
             Double val = 0.0;
             for (Vertex2D v:
                     clusters.get(i)) {
-                val += distance(v, centroids.get(i));
+                val += Centroid.distance(v, centroids.get(i));
             }
             ALL +=val;
             n++;

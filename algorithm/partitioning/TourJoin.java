@@ -132,9 +132,9 @@ public class TourJoin {
 
 
     public void joinIteration(HashMap<Integer, Tour> tours){
-        for (int i=0;i<k;i++){
-            if (!labels.contains(centroids.get(i).id))
-                continue;
+
+        while (labels.size()>1){
+            int i = labels.get(0);
 
             Centroid C1 = centroids.get(i);
             Centroid C2 = findClosest(C1);

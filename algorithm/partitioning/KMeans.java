@@ -58,6 +58,7 @@ public class KMeans {
         for (int i=0;i<k;i++){
             clusters.add(new ArrayList<>());
         }
+
         for (Vertex2D v:
              allPoints) {
             clusters.get(v.clusterNumber).add(v);
@@ -79,7 +80,6 @@ public class KMeans {
         }
 
         ArrayList<Double> values = new ArrayList<>();
-        ArrayList<Double> means2 = new ArrayList<>();
 
         int n=0;
         Double ALL = 0.0;

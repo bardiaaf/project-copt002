@@ -17,13 +17,13 @@ public class Edge implements Comparable<Edge> {
         this.weight = Integer.MAX_VALUE;
     }
 
-    public Edge swap(){
-        return new Edge(u,v,weight);
+    public Edge swap() {
+        return new Edge(u, v, weight);
     }
 
     @Override
     public int compareTo(Edge e) {
-        if(this.weight == e.weight) {
+        if (this.weight == e.weight) {
             if (Math.min(this.u.id, this.v.id) == Math.min(e.u.id, e.v.id))
                 return Math.max(this.u.id, this.v.id) - Math.max(e.u.id, e.v.id);
             return Math.min(this.u.id, this.v.id) - Math.min(e.u.id, e.v.id);

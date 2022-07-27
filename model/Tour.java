@@ -10,6 +10,7 @@ public class Tour {
     private final Vertex[] previous;
 
     private final int[] rank;
+
     public Tour(List<Edge> edges) {
         graph = Graph.getInstance();
         previous = new Vertex[edges.size()];
@@ -23,16 +24,16 @@ public class Tour {
         Vertex cur = neighbors[0][0];
         next[prev.id] = cur;
         previous[cur.id] = prev;
-        this.edges.add(graph.getEdge(prev,cur));
+        this.edges.add(graph.getEdge(prev, cur));
 //        System.out.println(edges.size());
-        while(this.edges.size()<edges.size()){
+        while (this.edges.size() < edges.size()) {
             //System.out.println("--"+cur.id);
             Vertex tmp = cur;
             cur = neighbors[cur.id][prev.equals(neighbors[cur.id][0]) ? 1 : 0];
             prev = tmp;
             next[prev.id] = cur;
             previous[cur.id] = prev;
-            this.edges.add(graph.getEdge(cur,tmp));
+            this.edges.add(graph.getEdge(cur, tmp));
         }
         int[] nodes = getNodes();
         rank = new int[edges.size()];
@@ -43,7 +44,7 @@ public class Tour {
     public org.moeaframework.problem.tsplib.Tour tsplibFormat() {
         org.moeaframework.problem.tsplib.Tour tour = new org.moeaframework.problem.tsplib.Tour();
         int[] res = this.getNodes();
-        for(int i=0;i<res.length;i++)
+        for (int i = 0; i < res.length; i++)
             res[i]++;
         tour.fromArray(res);
         return tour;
@@ -65,17 +66,17 @@ public class Tour {
         return rank[vertex.id];
     }
 
-    public Vertex next(Vertex vertex){
+    public Vertex next(Vertex vertex) {
         return next[vertex.id];
     }
 
-    public Vertex previous(Vertex vertex){
+    public Vertex previous(Vertex vertex) {
         return previous[vertex.id];
     }
 
     public Tour applyKExchange(K_Exchange exchange) {
         ArrayList<Edge> tmp = new ArrayList<>();
-        for(Edge edge: this.edges) {
+        for (Edge edge : this.edges) {
             if (!exchange.containsRed(edge))
                 tmp.add(edge);
         }

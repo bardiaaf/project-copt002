@@ -15,10 +15,10 @@ public class NearestNeighbor extends TourGenerator {
         List<Vertex> visited = new ArrayList<>();
         Vertex cur = new Vertex(0);
         visited.add(cur);
-        while(edges.size()<graph.getSize()) {
+        while (edges.size() < graph.getSize()) {
             Vertex min = null;
-            for(Vertex vertex: graph.vertices)
-                if(!visited.contains(vertex)) {
+            for (Vertex vertex : graph.vertices)
+                if (!visited.contains(vertex)) {
                     if (min == null)
                         min = vertex;
                     else if (graph.getEdge(vertex, cur).weight < graph.getEdge(min, cur).weight)
@@ -26,7 +26,7 @@ public class NearestNeighbor extends TourGenerator {
                 }
             if (min == null)
                 break;
-            edges.add(graph.getEdge(cur,min));
+            edges.add(graph.getEdge(cur, min));
             visited.add(min);
             cur = min;
         }

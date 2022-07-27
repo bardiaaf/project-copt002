@@ -1,6 +1,6 @@
 package model;
 
-public class Vertex implements Comparable<Vertex>{
+public class Vertex implements Comparable<Vertex> {
     public final int id;
 
     public Vertex(int id) {
@@ -9,7 +9,7 @@ public class Vertex implements Comparable<Vertex>{
 
     @Override
     public int compareTo(Vertex o) {
-        return id-o.id;
+        return id - o.id;
     }
 
     @Override

@@ -31,7 +31,7 @@ public class LinKernighan extends TourGenerator {
 
     // "l" is number of neighbors
     public K_Exchange linKernighanIteration(Tour T, int k, int l) {
-        int bestGain = 0;
+        double bestGain = 0.0;
         K_Exchange best = null;
         // for each starting vertex v
         for (int i = 0; i < graph.getSize(); i++) {

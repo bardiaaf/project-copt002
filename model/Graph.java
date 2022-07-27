@@ -18,10 +18,10 @@ public class Graph {
             vertices[i] = new Vertex(i);
         this.a = a;
         this.adj = new List[vertices.length];
-        for (Vertex v: vertices) {
+        for (Vertex v : vertices) {
             adj[v.id] = new ArrayList<>();
-            for(Vertex u: vertices)
-                if(hasEdge(v,u))
+            for (Vertex u : vertices)
+                if (hasEdge(v, u))
                     adj[v.id].add(a[v.id][u.id]);
             adj[v.id].sort(Edge::compareTo);
         }
@@ -32,25 +32,26 @@ public class Graph {
     }
 
     public static void setInstance(Edge[][] a) {
-        if(Graph.instance == null)
+        if (Graph.instance == null)
             Graph.instance = new Graph(a);
     }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
-    public Vertex getVertex(int i){
+
+    public Vertex getVertex(int i) {
         return vertices[i];
     }
 
-    public List<Edge> nearestNeighbors(Vertex v, int l){
-        List<Edge> result= new ArrayList<>();
-        if (adj[v.id].size()<=l){
+    public List<Edge> nearestNeighbors(Vertex v, int l) {
+        List<Edge> result = new ArrayList<>();
+        if (adj[v.id].size() <= l) {
             result.addAll(adj[v.id]);
             return result;
         }
 
-        for (int i=0;i<l;i++)
+        for (int i = 0; i < l; i++)
             result.add(adj[v.id].get(i));
         return result;
     }

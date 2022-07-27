@@ -29,7 +29,6 @@ public class TourJoin {
     }
 
     public Centroid findClosest(Centroid centroid){
-
         Double minDST = Double.MAX_VALUE;
         Centroid second = null;
 
@@ -96,7 +95,7 @@ public class TourJoin {
 
         Edge e2 = new Edge(start2, end2);
         for (Edge e:
-                T1.edges) {
+                T2.edges) {
             if (e.equals(e2))
                 continue;
             edges.add(e);

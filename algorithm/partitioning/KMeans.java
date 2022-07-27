@@ -1,22 +1,18 @@
 package algorithm.partitioning;
 
-import model.Vertex;
-
 import java.util.*;
 
 public class KMeans {
 
-    private List<Vertex2D> allPoints;
-    private Double PRECISION;
-    private int k;
+    private final List<Vertex2D> allPoints;
+    private final Double PRECISION;
+    private final int k;
 
     public KMeans(int k, Double PRECISION, List<Vertex2D> points){
         this.PRECISION =PRECISION;
         this.k = k;
         this.allPoints = points;
     }
-
-
 
 
     // centroids
@@ -35,11 +31,11 @@ public class KMeans {
     public void setNewClusterNumbers(List<Centroid> centroids){
 
         for (int i=0;i<allPoints.size();i++){
-            Double minDist = Double.MAX_VALUE;
+            double minDist = Double.MAX_VALUE;
             int index = -1;
 
             for (int j=0;j<centroids.size();j++) {
-                Double dist =Centroid.distance(allPoints.get(i), centroids.get(j));
+                double dist = Centroid.distance(allPoints.get(i), centroids.get(j));
 
                 if (dist<minDist){
                     minDist = dist;
@@ -51,7 +47,7 @@ public class KMeans {
         }
     }
 
-    public Double renewCenters(List<Centroid> centroids){
+    public double renewCenters(List<Centroid> centroids){
         // init clusters
         List<ArrayList<Vertex2D>> clusters = new ArrayList<>();
 
@@ -113,15 +109,15 @@ public class KMeans {
         // Select K initial centroids
         List<Centroid> centroids = randomCentroids();
 
-        // Initialize Sum of Squared Errors to max, we'll lower it at each iteration
-        Double SSE = Double.MAX_VALUE;
+        // Initialize Sum of Squared Errors to max
+        double SSE = Double.MAX_VALUE;
 
         while (true) {
             // Assign observations to centroids
             setNewClusterNumbers(centroids);
 
             // Recompute centroids according to new cluster assignments
-            Double newSSE = renewCenters(centroids);
+            double newSSE = renewCenters(centroids);
 
             // Exit condition, SSE changed less than PRECISION parameter
             if(SSE-newSSE <= PRECISION){

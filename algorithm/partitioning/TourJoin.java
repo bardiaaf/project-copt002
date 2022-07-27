@@ -71,14 +71,14 @@ public class TourJoin {
         return vertex2D;
     }
 
-    private Vertex2D getEndNode(Tour T, Vertex2D v){
+    private Vertex getEndNode(Tour T, Vertex2D v){
         Vertex v1 = T.next(v);
         Vertex v2 = T.previous(v);
         if (Graph.getInstance().getEdge(v, v1).weight > Graph.getInstance().getEdge(v, v2).weight ){
-            return new Vertex2D(v1.id);
+            return new Vertex(v1.id);
         }
         else{
-            return new Vertex2D(v2.id);
+            return new Vertex(v2.id);
         }
     }
 
@@ -119,8 +119,8 @@ public class TourJoin {
         Vertex2D v1 = closestPoint(C2, C1.id);
         Vertex2D v2 = closestPoint(C1, C2.id);
 
-        Vertex2D end1 = getEndNode(T1, v1);
-        Vertex2D end2 = getEndNode(T2, v2);
+        Vertex end1 = getEndNode(T1, v1);
+        Vertex end2 = getEndNode(T2, v2);
 
         // update lists
         labels.remove(C2.id);

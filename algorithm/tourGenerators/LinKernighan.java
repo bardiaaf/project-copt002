@@ -8,8 +8,8 @@ public class LinKernighan extends TourGenerator {
     private final TourGenerator secondaryTourGenerator;
     private static final int defaultRounds = 100, defaultK = 5, defaultL = 5;
 
-    public LinKernighan(TourGenerator secondaryTourGenerator) {
-        super();
+    public LinKernighan(Graph graph, TourGenerator secondaryTourGenerator) {
+        super(graph);
         this.secondaryTourGenerator = secondaryTourGenerator;
     }
 
@@ -55,7 +55,7 @@ public class LinKernighan extends TourGenerator {
     }
 
     public K_Exchange linKernighanSecond(Tour T, int k, int l, Vertex first, Vertex second) {
-        K_Exchange kExchange = new K_Exchange(T, first, second);
+        K_Exchange kExchange = new K_Exchange(graph, T, first, second);
 
         return applyStep(kExchange, 1, k, l, second);
     }

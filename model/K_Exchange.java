@@ -6,17 +6,16 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class K_Exchange {
-    private static Graph graph;
+    private final Graph graph;
     public final List<Edge> blues = new ArrayList<>();
     public final List<Edge> reds = new ArrayList<>();
     public final List<Vertex> t = new ArrayList<>();
     private final Tour tour;
-    //    private final boolean direction;
     private boolean isClosed;
     private final double gain;
 
-    public K_Exchange(Tour tour, Vertex first, Vertex second) {
-        graph = Graph.getInstance();
+    public K_Exchange(Graph graph, Tour tour, Vertex first, Vertex second) {
+        this.graph = graph;
         this.tour = tour;
         reds.add(graph.getEdge(first, second));
         t.add(first);
@@ -25,7 +24,8 @@ public class K_Exchange {
         isClosed = false;
     }
 
-    private K_Exchange(Tour tour, List<Edge> blues, List<Edge> reds, List<Vertex> t, Vertex t_n_1, Vertex t_n) {
+    private K_Exchange(Graph graph, Tour tour, List<Edge> blues, List<Edge> reds, List<Vertex> t, Vertex t_n_1, Vertex t_n) {
+        this.graph = graph;
         this.tour = tour;
         this.blues.addAll(blues);
         this.reds.addAll(reds);
@@ -54,7 +54,7 @@ public class K_Exchange {
             return null;
         double deltaGain = deltaGain(t_n_1, t_n);
         if (deltaGain + gain > 0)
-            return new K_Exchange(tour, /*direction,*/ blues, reds, t, t_n_1, t_n);
+            return new K_Exchange(graph, tour, blues, reds, t, t_n_1, t_n);
         return null;
     }
 

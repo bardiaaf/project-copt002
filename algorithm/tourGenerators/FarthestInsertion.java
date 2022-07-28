@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.TreeSet;
 
 public class FarthestInsertion extends TourGenerator {
+    public FarthestInsertion(Graph graph) {
+        super(graph);
+    }
+
     @Override
     public Tour generateTour(Graph graph) {
         Vertex s = new Vertex(0), t = new Vertex(1);
@@ -56,7 +60,7 @@ public class FarthestInsertion extends TourGenerator {
             edges.add(graph.getEdge(min.v, v));
             edges.add(graph.getEdge(min.u, v));
         }
-        return new Tour(new ArrayList<>(edges));
+        return new Tour(new ArrayList<>(edges), graph);
     }
 
     private double insertionCost(Edge edge, Vertex v) {

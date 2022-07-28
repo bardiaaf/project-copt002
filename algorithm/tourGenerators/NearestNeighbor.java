@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NearestNeighbor extends TourGenerator {
+    public NearestNeighbor(Graph graph) {
+        super(graph);
+    }
+
     @Override
     public Tour generateTour(Graph graph) {
         List<Edge> edges = new ArrayList<>();
@@ -31,6 +35,6 @@ public class NearestNeighbor extends TourGenerator {
             cur = min;
         }
         edges.add(graph.getEdge(cur, visited.get(0)));
-        return new Tour(edges);
+        return new Tour(edges, graph);
     }
 }

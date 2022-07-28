@@ -10,8 +10,8 @@ import java.util.List;
 public abstract class TourGenerator {
     protected final Graph graph;
 
-    public TourGenerator() {
-        this.graph = Graph.getInstance();
+    public TourGenerator(Graph graph) {
+        this.graph = graph;
     }
 
     public abstract Tour generateTour(Graph graph);

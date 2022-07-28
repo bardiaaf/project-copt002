@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tour {
-    private static Graph graph;
+    private final Graph graph;
     public final List<Edge> edges = new ArrayList<>();
     private final Vertex[] next;
     private final Vertex[] previous;
 
     private final int[] rank;
 
-    public Tour(List<Edge> edges) {
-        graph = Graph.getInstance();
+    public Tour(List<Edge> edges, Graph graph) {
+        this.graph = graph;
         previous = new Vertex[edges.size()];
         next = new Vertex[edges.size()];
         Vertex[][] neighbors = new Vertex[edges.size()][2];
@@ -25,9 +25,7 @@ public class Tour {
         next[prev.id] = cur;
         previous[cur.id] = prev;
         this.edges.add(graph.getEdge(prev, cur));
-//        System.out.println(edges.size());
         while (this.edges.size() < edges.size()) {
-            //System.out.println("--"+cur.id);
             Vertex tmp = cur;
             cur = neighbors[cur.id][prev.equals(neighbors[cur.id][0]) ? 1 : 0];
             prev = tmp;
@@ -81,6 +79,6 @@ public class Tour {
                 tmp.add(edge);
         }
         tmp.addAll(exchange.blues);
-        return new Tour(tmp);
+        return new Tour(tmp, this.graph);
     }
 }

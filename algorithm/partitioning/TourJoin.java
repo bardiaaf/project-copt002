@@ -27,9 +27,9 @@ public class TourJoin {
         Vertex v1 = T.next(v);
         Vertex v2 = T.previous(v);
         if (graph.getEdge(v, v1).weight > graph.getEdge(v, v2).weight) {
-            return new Vertex(v1.id);
+            return graph.getVertex(v1.id);
         } else {
-            return new Vertex(v2.id);
+            return graph.getVertex(v2.id);
         }
     }
 

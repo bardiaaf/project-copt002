@@ -16,9 +16,10 @@ public class FarthestInsertion extends TourGenerator {
 
     @Override
     public Tour generateTour(Graph graph) {
-        Vertex s = new Vertex(0), t = new Vertex(1);
-        for (Vertex v : graph.vertices)
-            for (Vertex u : graph.vertices)
+        Vertex[] rnd = graph.getRandomVertices(2);
+        Vertex s = rnd[0], t = rnd[1];
+        for (Vertex v : graph.getVertices())
+            for (Vertex u : graph.getVertices())
                 if (!v.equals(u) && graph.getEdge(v, u).weight < graph.getEdge(s, t).weight) {
                     s = v;
                     t = u;
@@ -29,7 +30,7 @@ public class FarthestInsertion extends TourGenerator {
         selectedVertices.add(s);
         selectedVertices.add(t);
         TreeSet<Edge> remaining = new TreeSet<>();
-        for (Vertex vertex : graph.vertices)
+        for (Vertex vertex : graph.getVertices())
             if (!vertex.equals(s) && !vertex.equals(t)) {
                 Edge es = graph.getEdge(s, vertex), et = graph.getEdge(t, vertex);
                 remaining.add(es.weight < et.weight ? es : et);

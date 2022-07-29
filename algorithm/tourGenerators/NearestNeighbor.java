@@ -17,7 +17,7 @@ public class NearestNeighbor extends TourGenerator {
     public Tour generateTour(Graph graph) {
         List<Edge> edges = new ArrayList<>();
         List<Vertex> visited = new ArrayList<>();
-        Vertex cur = new Vertex(0);
+        Vertex cur = graph.getRandomVertices(1)[0];
         visited.add(cur);
         while (edges.size() < graph.getSize()) {
             Vertex min = null;

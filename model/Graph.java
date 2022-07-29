@@ -89,4 +89,8 @@ public class Graph {
         }
         return res;
     }
+
+    public Vertex getVertex(int id) {
+        return vertices[id];
+    }
 }

@@ -44,4 +44,9 @@ public class SubGraph extends Graph{
     public boolean hasEdge(Vertex v, Vertex u) {
         return superGraph.hasEdge(v, u);
     }
+
+    @Override
+    public Vertex getVertex(int id) {
+        return superGraph.getVertex(id);
+    }
 }

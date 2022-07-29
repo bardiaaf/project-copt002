@@ -2,41 +2,47 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Tour {
     private final Graph graph;
     public final List<Edge> edges = new ArrayList<>();
-    private final Vertex[] next;
-    private final Vertex[] previous;
+    private final Map<Vertex,Vertex> next;
+    private final Map<Vertex,Vertex> previous;
 
-    private final int[] rank;
+    private final Map<Vertex,Integer> rank;
 
     public Tour(List<Edge> edges, Graph graph) {
         this.graph = graph;
-        previous = new Vertex[edges.size()];
-        next = new Vertex[edges.size()];
-        Vertex[][] neighbors = new Vertex[edges.size()][2];
-        for (Edge edge : edges) {
-            neighbors[edge.v.id][(neighbors[edge.v.id][0] == null) ? 0 : 1] = edge.u;
-            neighbors[edge.u.id][(neighbors[edge.u.id][0] == null) ? 0 : 1] = edge.v;
+        previous = new TreeMap<>();
+        next = new TreeMap<>();
+        Map<Vertex, Vertex[]> neighbors = new TreeMap<>();
+        for(Edge edge: edges) {
+            neighbors.put(edge.v, new Vertex[2]);
+            neighbors.put(edge.u, new Vertex[2]);
         }
-        Vertex prev = new Vertex(0);
-        Vertex cur = neighbors[0][0];
-        next[prev.id] = cur;
-        previous[cur.id] = prev;
+        for (Edge edge : edges) {
+            neighbors.get(edge.v)[(neighbors.get(edge.v)[0] == null) ? 0 : 1] = edge.u;
+            neighbors.get(edge.u)[(neighbors.get(edge.u)[0] == null) ? 0 : 1] = edge.v;
+        }
+        Vertex prev = graph.getRandomVertices(1)[0];
+        Vertex cur = neighbors.get(prev)[0];
+        next.put(prev, cur);
+        previous.put(cur, prev);
         this.edges.add(graph.getEdge(prev, cur));
         while (this.edges.size() < edges.size()) {
             Vertex tmp = cur;
-            cur = neighbors[cur.id][prev.equals(neighbors[cur.id][0]) ? 1 : 0];
+            cur = neighbors.get(cur)[prev.equals(neighbors.get(cur)[0]) ? 1 : 0];
             prev = tmp;
-            next[prev.id] = cur;
-            previous[cur.id] = prev;
+            next.put(prev, cur);
+            previous.put(cur, prev);
             this.edges.add(graph.getEdge(cur, tmp));
         }
         int[] nodes = getNodes();
-        rank = new int[edges.size()];
+        rank = new TreeMap<>();
         for (int i = 0; i < edges.size(); i++)
-            rank[nodes[i]] = i;
+            rank.put(graph.getVertex(nodes[i]), i);
     }
 
     public org.moeaframework.problem.tsplib.Tour tsplibFormat() {
@@ -55,21 +61,21 @@ public class Tour {
         do {
             res[index] = tmp;
             index++;
-            tmp = next[tmp].id;
+            tmp = next.get(graph.getVertex(tmp)).id;
         } while (tmp != 0);
         return res;
     }
 
     public int getIndex(Vertex vertex) {
-        return rank[vertex.id];
+        return rank.get(vertex);
     }
 
     public Vertex next(Vertex vertex) {
-        return next[vertex.id];
+        return next.get(vertex);
     }
 
     public Vertex previous(Vertex vertex) {
-        return previous[vertex.id];
+        return previous.get(vertex);
     }
 
     public Tour applyKExchange(K_Exchange exchange) {

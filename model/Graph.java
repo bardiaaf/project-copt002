@@ -1,17 +1,18 @@
 package model;
 
-import org.moeaframework.problem.tsplib.DistanceTable;
 import org.moeaframework.problem.tsplib.NodeCoordinates;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Graph {
-    private final Vertex[] vertices;
-    public final Edge[][] a;
-    public final List<Edge>[] adj;
-    public final int size;
+    private Vertex[] vertices;
+    private Edge[][] a;
+    protected List<Edge>[] adj;
+    private int size;
+
+    public Graph() {
+    }
 
     public Graph(Edge[][] a) {
         vertices = new Vertex[a.length];
@@ -81,27 +82,11 @@ public class Graph {
         return a[v.id][u.id].weight != Edge.MAX;
     }
 
-//    private static class VertexPair implements Comparable<VertexPair> {
-//        public final Vertex v, u;
-//
-//        public VertexPair(Vertex v, Vertex u) {
-//            this.v = v;
-//            this.u = u;
-//        }
-//
-//        @Override
-//        public boolean equals(Object o) {
-//            if (this == o) return true;
-//            if (o == null || getClass() != o.getClass()) return false;
-//            VertexPair that = (VertexPair) o;
-//            return v.equals(that.v) && u.equals(that.u);
-//        }
-//
-//        @Override
-//        public int compareTo(VertexPair o) {
-//            if (Math.min(this.u.id, this.v.id) == Math.min(o.u.id, o.v.id))
-//                return Math.max(this.u.id, this.v.id) - Math.max(o.u.id, o.v.id);
-//            return Math.min(this.u.id, this.v.id) - Math.min(o.u.id, o.v.id);
-//        }
-//    }
+    public Vertex[] getRandomVertices(int l) {
+        Vertex[] res = new Vertex[l];
+        for (int i = 0; i < l; i++) {
+            res[i] = this.getVertices()[i];
+        }
+        return res;
+    }
 }

@@ -21,7 +21,7 @@ public class NearestNeighbor extends TourGenerator {
         visited.add(cur);
         while (edges.size() < graph.getSize()) {
             Vertex min = null;
-            for (Vertex vertex : graph.vertices)
+            for (Vertex vertex : graph.getVertices())
                 if (!visited.contains(vertex)) {
                     if (min == null)
                         min = vertex;

@@ -1,6 +1,5 @@
 import algorithm.partitioning.Cluster;
 import algorithm.partitioning.KMeans;
-import algorithm.partitioning.KmeansTest;
 import algorithm.partitioning.TourJoin;
 import algorithm.tourGenerators.FarthestInsertion;
 import algorithm.tourGenerators.LinKernighan;
@@ -83,20 +82,8 @@ public class Main {
 
         long startTime = System.currentTimeMillis();
 
-        // create graph
-        Edge[][] a = new Edge[n][n];
-        for (int i=0;i<n;i++) {
-            for (int j = i + 1; j < n; j++) {
-                int w = (int) distanceTable.getDistanceBetween(i + 1, j + 1);
-                a[i][j] = new Edge(new Vertex(i), new Vertex(j), w);
-                a[j][i] = a[i][j];
-            }
-            a[i][i] = new Edge(new Vertex(i), new Vertex(i));
-        }
-
-        Graph graph = new Graph(a);
-
         List<Point> points = Point.getPoints((NodeCoordinates) distanceTable);
+        Graph graph = new Graph(points);
         List<Vertex2D> allpoints = new ArrayList<>();
 
         for (int i=0;i<points.size();i++) {

@@ -19,7 +19,11 @@ public class LinKernighan extends TourGenerator {
     }
 
     public Tour generateTour(Graph graph, int rounds, int k, int l) {
-        Tour res = secondaryTourGenerator.generateTour(graph);
+        return this.generateTour(graph, secondaryTourGenerator.generateTour(graph), rounds, k, l);
+    }
+
+    public Tour generateTour(Graph graph, Tour pre, int rounds, int k, int l) {
+        Tour res = pre;
         for (int i = 0; i < rounds; i++) {
             K_Exchange best = linKernighanIteration(res, k, l);
             if(best == null)

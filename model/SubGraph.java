@@ -1,5 +1,7 @@
 package model;
 
+import algorithm.partitioning.Cluster;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,10 @@ public class SubGraph extends Graph{
                     adj[v.id].add(getEdge(v, u));
             adj[v.id].sort(Edge::compareTo);
         }
+    }
+
+    public SubGraph(Cluster cluster, Graph graph) {
+        this(cluster.getPoints().toArray(new Vertex2D[0]), graph);
     }
 
     @Override

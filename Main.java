@@ -8,10 +8,12 @@ import algorithm.tourGenerators.NearestNeighbor;
 import algorithm.tourGenerators.TourGenerator;
 import model.*;
 import org.moeaframework.problem.tsplib.DistanceTable;
+import org.moeaframework.problem.tsplib.NodeCoordinates;
 import org.moeaframework.problem.tsplib.TSPInstance;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -70,7 +72,6 @@ public class Main {
         System.out.println("approx: " + (tour.tsplibFormat().distance(problem) / best));
         System.out.println("time: " + (System.currentTimeMillis() - startTime) / 1000L);
 
-
     }
 
 
@@ -95,7 +96,13 @@ public class Main {
 
         Graph graph = new Graph(a);
 
-        List<Vertex2D> allpoints = null;
+        List<Point> points = Point.getPoints((NodeCoordinates) distanceTable);
+        List<Vertex2D> allpoints = new ArrayList<>();
+
+        for (int i=0;i<points.size();i++) {
+            allpoints.add(new Vertex2D(i, points.get(i).x, points.get(i).y));
+        }
+
         // cluster
         KMeans kMeans = new KMeans(k_cluster, PRECISIOJN,allpoints);
         List<Cluster> clusters = kMeans.kmMeans();

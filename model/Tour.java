@@ -23,7 +23,7 @@ public class Tour {
             neighbors.put(edge.u, new Vertex[2]);
         }
         for (Edge edge : edges) {
-            System.err.println(edge.u.id+" "+edge.v.id);
+//            System.err.println(edge.u.id+" "+edge.v.id);
             neighbors.get(edge.v)[(neighbors.get(edge.v)[0] == null) ? 0 : 1] = edge.u;
             neighbors.get(edge.u)[(neighbors.get(edge.u)[0] == null) ? 0 : 1] = edge.v;
         }
@@ -62,7 +62,7 @@ public class Tour {
         int init = tmp;
         int index = 0;
         do {
-            System.err.println(">"+tmp);
+//            System.err.println(">"+tmp);
             res[index] = tmp;
             index++;
             tmp = next.get(graph.getVertex(tmp)).id;

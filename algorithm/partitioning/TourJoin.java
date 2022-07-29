@@ -36,18 +36,19 @@ public class TourJoin {
     private static Tour joinTours(Graph graph, Tour T1, Vertex start1, Vertex end1, Tour T2, Vertex start2, Vertex end2) {
         List<Edge> edges = new ArrayList<>();
 
-        Edge e1 = new Edge(start1, end1);
+        Edge e1 = graph.getEdge(start1, end1);
         for (Edge e : T1.edges)
             if (!e.equals(e1))
                 edges.add(e);
 
-        Edge e2 = new Edge(start2, end2);
+        Edge e2 = graph.getEdge(start2, end2);
         for (Edge e : T2.edges)
             if (!e.equals(e2))
                 edges.add(e);
 
         edges.add(graph.getEdge(start1, start2));
         edges.add(graph.getEdge(end1, end2));
+        System.err.println(">>>>>"+T1.edges.size()+"+"+T2.edges.size()+"="+edges.size());
 
         System.err.println(start1.id+" "+end1.id);
         System.err.println(start2.id+" "+end2.id);

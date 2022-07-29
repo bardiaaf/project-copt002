@@ -107,6 +107,7 @@ public class Main {
             cluster.setTour(tour);
         }
         Tour tour = TourJoin.joinClusterTours(graph, clusters);
+
         System.out.println(tour.tsplibFormat().distance(problem));
         System.out.println("name: " + name);
         System.out.println("approx: " + (tour.tsplibFormat().distance(problem) / best));

@@ -4,21 +4,22 @@ import algorithm.partitioning.Cluster;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public class SubGraph extends Graph{
-    private Vertex[] remainingVertices;
-    private Graph superGraph;
+    private final Vertex[] remainingVertices;
+    private final Graph superGraph;
 
     public SubGraph(Vertex[] remainingVertices, Graph graph) {
         this.remainingVertices = remainingVertices;
         this.superGraph = graph;
-        adj = new List[remainingVertices.length];
+        adj = new TreeMap<>();
         for (Vertex v : remainingVertices) {
-            adj[v.id] = new ArrayList<>();
+            adj.put(v, new ArrayList<>());
             for (Vertex u : remainingVertices)
                 if (hasEdge(v, u))
-                    adj[v.id].add(getEdge(v, u));
-            adj[v.id].sort(Edge::compareTo);
+                    adj.get(v).add(getEdge(v, u));
+            adj.get(v).sort(Edge::compareTo);
         }
     }
 

@@ -4,11 +4,12 @@ import org.moeaframework.problem.tsplib.NodeCoordinates;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public class Graph {
     private Vertex[] vertices;
     private Edge[][] a;
-    protected List<Edge>[] adj;
+    protected TreeMap<Vertex, List<Edge>> adj;
     private int size;
 
     public Graph() {
@@ -20,7 +21,7 @@ public class Graph {
         for (int i = 0; i < a.length; i++)
             vertices[i] = new Vertex(i);
         this.a = a;
-        this.adj = new List[vertices.length];
+        this.adj = new TreeMap<>();
         createAdj();
     }
 
@@ -36,7 +37,7 @@ public class Graph {
                     a[i][j] = new Edge(vertices[i], vertices[j]);
                 else
                     a[i][j] = new Edge(vertices[i], vertices[j], points.get(i).distance(points.get(j)));
-        this.adj = new List[size];
+        this.adj = new TreeMap<>();
         createAdj();
     }
 
@@ -50,11 +51,11 @@ public class Graph {
 
     private void createAdj() {
         for (Vertex v : vertices) {
-            adj[v.id] = new ArrayList<>();
+            adj.put(v, new ArrayList<>());
             for (Vertex u : vertices)
                 if (hasEdge(v, u))
-                    adj[v.id].add(a[v.id][u.id]);
-            adj[v.id].sort(Edge::compareTo);
+                    adj.get(v).add(a[v.id][u.id]);
+            adj.get(v).sort(Edge::compareTo);
         }
     }
 
@@ -64,13 +65,14 @@ public class Graph {
 
     public List<Edge> nearestNeighbors(Vertex v, int l) {
         List<Edge> result = new ArrayList<>();
-        if (adj[v.id].size() <= l) {
-            result.addAll(adj[v.id]);
+        List<Edge> tmp = adj.get(v);
+        if (tmp.size() <= l) {
+            result.addAll(tmp);
             return result;
         }
 
         for (int i = 0; i < l; i++)
-            result.add(adj[v.id].get(i));
+            result.add(tmp.get(i));
         return result;
     }
 

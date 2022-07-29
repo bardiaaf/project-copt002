@@ -48,10 +48,6 @@ public class TourJoin {
 
         edges.add(graph.getEdge(start1, start2));
         edges.add(graph.getEdge(end1, end2));
-        System.err.println(">>>>>"+T1.edges.size()+"+"+T2.edges.size()+"="+edges.size());
-
-        System.err.println(start1.id+" "+end1.id);
-        System.err.println(start2.id+" "+end2.id);
         return new Tour(edges, graph);
     }
 

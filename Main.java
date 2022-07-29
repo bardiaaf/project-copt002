@@ -27,6 +27,10 @@ public class Main {
         Main.filePath = filePath;
     }
 
+    public static void setFilePath(String filePath){
+        Main.filePath = filePath;
+    }
+
 
     public static void test(String secondaryTourGenerator, int rounds, int k_linKernighan, int l) throws IOException {
         // init problem
@@ -73,8 +77,7 @@ public class Main {
 
     }
 
-
-    public void test_withCluster(String secondaryTourGenerator, int rounds, int k_linKernighan, int l, int k_cluster, double PRECISIOJN) throws IOException {
+    public static void test_withCluster(String secondaryTourGenerator, int rounds, int k_linKernighan, int l, int k_cluster, double PRECISIOJN) throws IOException {
         // init problem
         TSPInstance problem = new TSPInstance(new File(filePath));
         DistanceTable distanceTable = problem.getDistanceTable();
@@ -113,6 +116,23 @@ public class Main {
 
 
     public static void main(String[] args) {
+        setArgs("zi929",95345,"/data/tsp/"+name+".tsp");
+        setFilePath("data/tsp/"+name+".tsp");
+
+//        // no cluster
+//        try {
+//            test("FarthestInsertion",1000,4,5);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        // with cluster
+        try {
+            test_withCluster("FarthestInsertion",1000,4,5, 10, 0.5);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

@@ -118,7 +118,7 @@ public class KMeans {
         for (Cluster c:
              clusters) {
             double dst = centroid.distance(c.getCentroid());
-            if (dst<minDst){
+            if (c!=small && dst<minDst){
                 target = c;
             }
         }

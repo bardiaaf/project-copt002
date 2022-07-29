@@ -6,10 +6,14 @@ import algorithm.tourGenerators.LinKernighan;
 import algorithm.tourGenerators.NearestNeighbor;
 import algorithm.tourGenerators.TourGenerator;
 import model.*;
+import model.Point;
 import org.moeaframework.problem.tsplib.DistanceTable;
 import org.moeaframework.problem.tsplib.NodeCoordinates;
 import org.moeaframework.problem.tsplib.TSPInstance;
+import org.moeaframework.problem.tsplib.TSPPanel;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -97,7 +101,6 @@ public class Main {
         KMeans kMeans = new KMeans(k_cluster, PRECISIOJN,allpoints);
         List<Cluster> clusters = kMeans.kmMeans();
 
-        int i = 0;
         for (Cluster cluster:
              clusters) {
             // set tours
@@ -112,6 +115,34 @@ public class Main {
         System.out.println("name: " + name);
         System.out.println("approx: " + (tour.tsplibFormat().distance(problem) / best));
         System.out.println("time: " + (System.currentTimeMillis() - startTime) / 1000L);
+        System.out.println("___________");
+        tour = new LinKernighan(graph, null).generateTour(graph, tour, 1000,5,5);
+        System.out.println(tour.tsplibFormat().distance(problem));
+        System.out.println("name: " + name);
+        System.out.println("approx: " + (tour.tsplibFormat().distance(problem) / best));
+        System.out.println("time: " + (System.currentTimeMillis() - startTime) / 1000L);
+        System.out.println("___________");
+//        Tour tour = new FarthestInsertion(graph).generateTour(graph);
+        TSPPanel panel = new TSPPanel(problem);
+        panel.displayTour(tour.tsplibFormat(), Color.BLUE);
+        JFrame frame = new JFrame(problem.getName());
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(panel, BorderLayout.CENTER);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(500, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+//        System.out.println(tour.tsplibFormat().distance(problem));
+//        System.out.println("name: " + name);
+//        System.out.println("approx: " + (tour.tsplibFormat().distance(problem) / best));
+//        System.out.println("time: " + (System.currentTimeMillis() - startTime) / 1000L);
+//        System.out.println("___________");
+//        tour = new LinKernighan(graph, new FarthestInsertion(graph)).generateTour(graph, tour, 1000,5,5);
+//        System.out.println(tour.tsplibFormat().distance(problem));
+//        System.out.println("name: " + name);
+//        System.out.println("approx: " + (tour.tsplibFormat().distance(problem) / best));
+//        System.out.println("time: " + (System.currentTimeMillis() - startTime) / 1000L);
+
     }
 
 
@@ -119,7 +150,7 @@ public class Main {
         setArgs("zi929",95345,"./data/tsp/"+name+".tsp");
         setFilePath("./data/tsp/"+name+".tsp");
 
-//        // no cluster
+        // no cluster
 //        try {
 //            test("FarthestInsertion",1000,4,5);
 //        } catch (IOException e) {

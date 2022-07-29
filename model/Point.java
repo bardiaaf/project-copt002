@@ -22,7 +22,7 @@ public class Point {
         int[] idList = nodeCoordinates.listNodes();
         List<Point> points = new ArrayList<>();
         for(int id: idList)
-            points.add(new Point(nodeCoordinates.get(id).getPosition()[0], nodeCoordinates.get(id).getPosition()[0]));
+            points.add(new Point(nodeCoordinates.get(id).getPosition()[0], nodeCoordinates.get(id).getPosition()[1]));
         return points;
     }
 

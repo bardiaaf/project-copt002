@@ -37,11 +37,12 @@ public class Test {
             }
             a[i][i] = new Edge(new Vertex(i), new Vertex(i));
         }
-        Graph.setInstance(a);
-        LinKernighan tourGenerator = new LinKernighan(new FarthestInsertion());
-        Tour pre = new FarthestInsertion().generateTour(Graph.getInstance());
+
+        Graph graph = new Graph(a);
+        LinKernighan tourGenerator = new LinKernighan(graph,new FarthestInsertion(graph));
+        Tour pre = new FarthestInsertion(graph).generateTour(graph);
         System.out.println(pre.tsplibFormat().distance(problem));
-        Tour tour = tourGenerator.generateTour(Graph.getInstance(), 1000, 4, 5);
+        Tour tour = tourGenerator.generateTour(graph, 1000, 4, 5);
         System.out.println(tour.tsplibFormat().distance(problem));
         System.out.println("name: "+name);
         System.out.println("approx: "+(tour.tsplibFormat().distance(problem)/best));

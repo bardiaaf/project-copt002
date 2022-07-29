@@ -12,7 +12,7 @@ public class Cluster {
     private final List<Vertex2D> points = new ArrayList<>();
     public final int id;
     private Point centroid;
-    private final Tour tour;
+    private Tour tour;
 
     public Cluster(int id, Point centroid, Tour tour, List<Vertex2D> points) {
         this.id = id;
@@ -20,6 +20,26 @@ public class Cluster {
         this.tour = tour;
         this.points.addAll(points);
     }
+
+    public Cluster(int id, Point centroid, List<Vertex2D> points){
+        this.id = id;
+        this.centroid = centroid;
+        this.points.addAll(points);
+    }
+
+    public void setTour(Tour tour){
+        this.tour = tour;
+    }
+
+
+    public int getSize(){
+        return points.size();
+    }
+
+    public void addPoint(List<Vertex2D> newPoints){
+        points.addAll(newPoints);
+    }
+
 
     public List<Vertex2D> getPoints() {
         return points;

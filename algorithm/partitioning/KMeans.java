@@ -1,5 +1,7 @@
 package algorithm.partitioning;
 
+import algorithm.tourGenerators.TourGenerator;
+import model.Point;
 import model.Vertex2D;
 
 import java.util.*;
@@ -10,7 +12,7 @@ public class KMeans {
     private final double PRECISION;
     private final int k;
 
-    public KMeans(int k, Double PRECISION, List<Vertex2D> points) {
+    public KMeans(int k, double PRECISION, List<Vertex2D> points) {
         this.PRECISION = PRECISION;
         this.k = k;
         this.allPoints.addAll(points);
@@ -97,8 +99,62 @@ public class KMeans {
     }
 
 
+    public List<Cluster> deleteSmallClusters(List<Cluster> clusters){
+
+        for (int i=0;i<clusters.size();i++){
+            if (clusters.get(i).getSize() <3){
+                joinClusters(clusters.get(i), clusters);
+                i=0;
+            }
+        }
+
+        return clusters;
+    }
+
+    public void joinClusters(Cluster small, List<Cluster> clusters){
+        double minDst = Double.MAX_VALUE;
+        Point centroid = small.getCentroid();
+        Cluster target = null;
+
+        for (Cluster c:
+             clusters) {
+            double dst = centroid.distance(c.getCentroid());
+            if (dst<minDst){
+                target = c;
+            }
+        }
+
+        clusters.remove(small);
+        target.addPoint(small.getPoints());
+
+    }
+
+
+    public List<Cluster> getClusters(List<Centroid> centroids){
+        List<ArrayList<Vertex2D>> list = new ArrayList<>();
+        for (int i=0;i<k;i++){
+            list.add(new ArrayList<>());
+        }
+
+        for (Vertex2D v:
+             allPoints) {
+            list.get(v.clusterNumber).add(v);
+        }
+
+
+        List<Cluster> clusters = new ArrayList<>();
+        for (int i=0;i<k;i++){
+           clusters.add(new Cluster(i, centroids.get(i).getCoord(), list.get(i)));
+        }
+
+
+        return deleteSmallClusters(clusters);
+    }
+
+
+
     // kMeans algorithm
-    public void kmMeans() {
+    public List<Cluster> kmMeans() {
         // Select K initial centroids
         List<Centroid> centroids = randomCentroids();
 
@@ -117,6 +173,9 @@ public class KMeans {
                 break;
             SSE = newSSE;
         }
+
+        return getClusters(centroids);
+
     }
 
 

@@ -33,6 +33,7 @@ public class LinKernighan extends TourGenerator {
     public K_Exchange linKernighanIteration(Tour T, int k, int l) {
         double bestGain = 0.0;
         K_Exchange best = null;
+
         // for each starting vertex v
         for (Vertex vertex : graph.getVertices()) {
             K_Exchange stepResult = linKernighanFirst(T, k, l, vertex);

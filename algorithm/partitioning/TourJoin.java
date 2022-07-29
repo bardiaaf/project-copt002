@@ -63,7 +63,11 @@ public class TourJoin {
         Tour tour = joinTours(graph, c1.getTour(), v1, end1, c2.getTour(), v2, end2);
         List<Vertex2D> points = new ArrayList<>(c1.getPoints());
         points.addAll(c2.getPoints());
-        return new Cluster(c1.id, c1.getCentroid(), tour, points);
+
+        Cluster cluster = new Cluster(c1.id, c1.getCentroid(), tour, points);
+        cluster.updateCentroid();
+
+        return cluster;
     }
 
     public static Tour joinClusterTours(Graph graph, List<Cluster> clusters) {

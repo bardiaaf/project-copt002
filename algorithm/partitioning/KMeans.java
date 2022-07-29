@@ -31,12 +31,12 @@ public class KMeans {
 
     public void setNewClusterNumbers(List<Centroid> centroids) {
 
-        for (Vertex2D allPoint : allPoints) {
+        for (Vertex2D point : allPoints) {
             double minDist = Double.MAX_VALUE;
             int index = -1;
 
             for (int j = 0; j < centroids.size(); j++) {
-                double dist = allPoint.coord.distance(centroids.get(j).getCoord());
+                double dist = point.coord.distance(centroids.get(j).getCoord());
 
                 if (dist < minDist) {
                     minDist = dist;
@@ -44,8 +44,9 @@ public class KMeans {
                 }
             }
 
-            allPoint.setClusterNumber(index);
+            point.setClusterNumber(index);
         }
+
     }
 
     public double renewCenters(List<Centroid> centroids) {

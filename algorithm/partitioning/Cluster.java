@@ -54,6 +54,20 @@ public class Cluster {
         return vertex2D;
     }
 
+    public void updateCentroid(){
+
+        double X = 0.0;
+        double Y = 0.0;
+        double n = points.size();
+
+        for (Vertex2D v : points) {
+                X += v.coord.x;
+                Y += v.coord.y;
+        }
+
+        centroid = new Point(X, Y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

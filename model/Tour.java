@@ -39,6 +39,7 @@ public class Tour {
             previous.put(cur, prev);
             this.edges.add(graph.getEdge(cur, tmp));
         }
+        System.err.println(">>"+edges.size());
         int[] nodes = getNodes();
         rank = new TreeMap<>();
         for (int i = 0; i < edges.size(); i++)
@@ -56,13 +57,14 @@ public class Tour {
 
     public int[] getNodes() {
         int[] res = new int[edges.size()];
-        int tmp = 0;
+        int tmp = graph.getRandomVertices(1)[0].id;
+        int init = tmp;
         int index = 0;
         do {
             res[index] = tmp;
             index++;
             tmp = next.get(graph.getVertex(tmp)).id;
-        } while (tmp != 0);
+        } while (tmp != init);
         return res;
     }
 
@@ -86,5 +88,9 @@ public class Tour {
         }
         tmp.addAll(exchange.blues);
         return new Tour(tmp, this.graph);
+    }
+
+    public Graph getGraph() {
+        return graph;
     }
 }

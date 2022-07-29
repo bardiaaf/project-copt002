@@ -1,6 +1,7 @@
 package algorithm.partitioning;
 
 import algorithm.tourGenerators.TourGenerator;
+import model.Edge;
 import model.Point;
 import model.Vertex2D;
 
@@ -111,14 +112,14 @@ public class KMeans {
     }
 
     public void joinClusters(Cluster small, List<Cluster> clusters){
-        double minDst = Double.MAX_VALUE;
+        double minDst = Edge.MAX;
         Point centroid = small.getCentroid();
         Cluster target = null;
 
         for (Cluster c:
              clusters) {
             double dst = centroid.distance(c.getCentroid());
-            if (c!=small && dst<minDst){
+            if (!c.equals(small) && dst<minDst){
                 target = c;
             }
         }

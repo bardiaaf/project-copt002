@@ -97,15 +97,18 @@ public class Main {
         KMeans kMeans = new KMeans(k_cluster, PRECISIOJN,allpoints);
         List<Cluster> clusters = kMeans.kmMeans();
 
+        int i = 0;
         for (Cluster cluster:
              clusters) {
             // set tours
+            System.err.println("cluster "+i);
+            i++;
             SubGraph subGraph = new SubGraph(cluster, graph);
             LinKernighan tourGenerator = new LinKernighan(subGraph, new NearestNeighbor(subGraph));
-            Tour tour = tourGenerator.generateTour(subGraph, rounds, k_linKernighan, l);
+            Tour tour = tourGenerator.generateTour(subGraph, rounds/20, k_linKernighan, l);
             cluster.setTour(tour);
         }
-
+        System.err.println("clusters done");
 
         Tour tour = TourJoin.joinClusterTours(graph, clusters);
         System.out.println(tour.tsplibFormat().distance(problem));
@@ -116,8 +119,8 @@ public class Main {
 
 
     public static void main(String[] args) {
-        setArgs("zi929",95345,"/data/tsp/"+name+".tsp");
-        setFilePath("data/tsp/"+name+".tsp");
+        setArgs("zi929",95345,"./data/tsp/"+name+".tsp");
+        setFilePath("./data/tsp/"+name+".tsp");
 
 //        // no cluster
 //        try {
@@ -128,7 +131,7 @@ public class Main {
 
         // with cluster
         try {
-            test_withCluster("FarthestInsertion",1000,4,5, 10, 0.5);
+            test_withCluster("FarthestInsertion",1000,5,5, 10, 0.5);
         } catch (IOException e) {
             e.printStackTrace();
         }

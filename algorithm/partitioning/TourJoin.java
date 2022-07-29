@@ -46,9 +46,11 @@ public class TourJoin {
             if (!e.equals(e2))
                 edges.add(e);
 
-        edges.add(new Edge(start1, start2));
-        edges.add(new Edge(end1, end2));
+        edges.add(graph.getEdge(start1, start2));
+        edges.add(graph.getEdge(end1, end2));
 
+        System.err.println(start1.id+" "+end1.id);
+        System.err.println(start2.id+" "+end2.id);
         return new Tour(edges, graph);
     }
 
@@ -59,10 +61,10 @@ public class TourJoin {
         Vertex end1 = getEndNode(graph, c1.getTour(), v1);
         Vertex end2 = getEndNode(graph, c2.getTour(), v2);
 
-
-        Tour tour = joinTours(graph, c1.getTour(), v1, end1, c2.getTour(), v2, end2);
         List<Vertex2D> points = new ArrayList<>(c1.getPoints());
         points.addAll(c2.getPoints());
+        Tour tour = joinTours(new SubGraph(points.toArray(new Vertex2D[0]), graph), c1.getTour(), v1, end1, c2.getTour(), v2, end2);
+
 
         Cluster cluster = new Cluster(c1.id, c1.getCentroid(), tour, points);
         cluster.updateCentroid();

@@ -101,15 +101,11 @@ public class Main {
         for (Cluster cluster:
              clusters) {
             // set tours
-            System.err.println("cluster "+i);
-            i++;
             SubGraph subGraph = new SubGraph(cluster, graph);
             LinKernighan tourGenerator = new LinKernighan(subGraph, new NearestNeighbor(subGraph));
             Tour tour = tourGenerator.generateTour(subGraph, rounds/20, k_linKernighan, l);
             cluster.setTour(tour);
         }
-        System.err.println("clusters done");
-
         Tour tour = TourJoin.joinClusterTours(graph, clusters);
         System.out.println(tour.tsplibFormat().distance(problem));
         System.out.println("name: " + name);

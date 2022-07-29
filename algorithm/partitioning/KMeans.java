@@ -98,7 +98,6 @@ public class KMeans {
         return SSE;
     }
 
-
     public List<Cluster> deleteSmallClusters(List<Cluster> clusters){
 
         for (int i=0;i<clusters.size();i++){
@@ -129,7 +128,6 @@ public class KMeans {
 
     }
 
-
     public List<Cluster> getClusters(List<Centroid> centroids){
         List<ArrayList<Vertex2D>> list = new ArrayList<>();
         for (int i=0;i<k;i++){
@@ -150,7 +148,6 @@ public class KMeans {
 
         return deleteSmallClusters(clusters);
     }
-
 
 
     // kMeans algorithm

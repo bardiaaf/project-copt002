@@ -97,10 +97,18 @@ public class Main {
         for (Cluster cluster:
              clusters) {
             // set tours
+            SubGraph subGraph = new SubGraph(cluster, graph);
+            LinKernighan tourGenerator = new LinKernighan(subGraph, new NearestNeighbor(subGraph));
+            Tour tour = tourGenerator.generateTour(subGraph, rounds, k_linKernighan, l);
+            cluster.setTour(tour);
         }
 
 
         Tour tour = TourJoin.joinClusterTours(graph, clusters);
+        System.out.println(tour.tsplibFormat().distance(problem));
+        System.out.println("name: " + name);
+        System.out.println("approx: " + (tour.tsplibFormat().distance(problem) / best));
+        System.out.println("time: " + (System.currentTimeMillis() - startTime) / 1000L);
     }
 
 

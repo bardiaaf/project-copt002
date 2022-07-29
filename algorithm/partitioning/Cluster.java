@@ -31,7 +31,6 @@ public class Cluster {
         this.tour = tour;
     }
 
-
     public int getSize(){
         return points.size();
     }
@@ -85,7 +84,7 @@ public class Cluster {
                 Y += v.coord.y;
         }
 
-        centroid = new Point(X, Y);
+        centroid = new Point(X/n, Y/n);
     }
 
     @Override

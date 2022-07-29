@@ -23,10 +23,11 @@ public class Tour {
             neighbors.put(edge.u, new Vertex[2]);
         }
         for (Edge edge : edges) {
+            System.err.println(edge.u.id+" "+edge.v.id);
             neighbors.get(edge.v)[(neighbors.get(edge.v)[0] == null) ? 0 : 1] = edge.u;
             neighbors.get(edge.u)[(neighbors.get(edge.u)[0] == null) ? 0 : 1] = edge.v;
         }
-        Vertex prev = graph.getRandomVertices(1)[0];
+        Vertex prev = edges.get(0).v;
         Vertex cur = neighbors.get(prev)[0];
         next.put(prev, cur);
         previous.put(cur, prev);
@@ -39,7 +40,7 @@ public class Tour {
             previous.put(cur, prev);
             this.edges.add(graph.getEdge(cur, tmp));
         }
-        System.err.println(">>"+edges.size());
+        System.err.println(">>"+edges.size()+">>"+this.edges.size());
         int[] nodes = getNodes();
         rank = new TreeMap<>();
         for (int i = 0; i < edges.size(); i++)
@@ -57,10 +58,11 @@ public class Tour {
 
     public int[] getNodes() {
         int[] res = new int[edges.size()];
-        int tmp = graph.getRandomVertices(1)[0].id;
+        int tmp = edges.get(0).v.id;
         int init = tmp;
         int index = 0;
         do {
+            System.err.println(">"+tmp);
             res[index] = tmp;
             index++;
             tmp = next.get(graph.getVertex(tmp)).id;

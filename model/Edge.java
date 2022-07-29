@@ -2,9 +2,10 @@ package model;
 
 public class Edge implements Comparable<Edge> {
     public final Vertex v, u;
-    public final int weight;
+    public final double weight;
 
-    public Edge(Vertex v, Vertex u, int weight) {
+    public static final double MAX = 1000000000.0;
+    public Edge(Vertex v, Vertex u, double weight) {
         this.v = v;
         this.u = u;
         this.weight = weight;
@@ -14,7 +15,7 @@ public class Edge implements Comparable<Edge> {
     public Edge(Vertex v, Vertex u) {
         this.v = v;
         this.u = u;
-        this.weight = Integer.MAX_VALUE;
+        this.weight = MAX;
     }
 
     public Edge swap() {
@@ -28,7 +29,7 @@ public class Edge implements Comparable<Edge> {
                 return Math.max(this.u.id, this.v.id) - Math.max(e.u.id, e.v.id);
             return Math.min(this.u.id, this.v.id) - Math.min(e.u.id, e.v.id);
         }
-        return this.weight - e.weight;
+        return (this.weight < e.weight ? -1 : 1);
     }
 
     @Override

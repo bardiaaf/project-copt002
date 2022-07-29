@@ -1,8 +1,5 @@
 package model;
 
-import model.Point;
-import model.Vertex;
-
 public class Vertex2D extends Vertex {
 
     public final Point coord;

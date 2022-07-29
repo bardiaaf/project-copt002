@@ -34,8 +34,8 @@ public class LinKernighan extends TourGenerator {
         double bestGain = 0.0;
         K_Exchange best = null;
         // for each starting vertex v
-        for (int i = 0; i < graph.getSize(); i++) {
-            K_Exchange stepResult = linKernighanFirst(T, k, l, graph.getVertex(i));
+        for (Vertex vertex : graph.getVertices()) {
+            K_Exchange stepResult = linKernighanFirst(T, k, l, vertex);
             if (stepResult.getGain() > bestGain) {
                 best = stepResult;
                 bestGain = best.getGain();

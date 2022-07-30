@@ -99,13 +99,45 @@ public class KMeans {
         return SSE;
     }
 
+//    public List<Cluster> deleteSmallClusters(List<Cluster> clusters){
+//
+//        for (int i=0;i<clusters.size();i++){
+//            if (clusters.get(i).getSize() <3){
+//                joinClusters(clusters.get(i), clusters);
+//                i=0;
+//            }
+//        }
+//
+//        return clusters;
+//    }
+
+
     public List<Cluster> deleteSmallClusters(List<Cluster> clusters){
+        List<Vertex2D> points = new ArrayList<>();
 
         for (int i=0;i<clusters.size();i++){
-            if (clusters.get(i).getSize() <3){
-                joinClusters(clusters.get(i), clusters);
-                i=0;
+            if (clusters.get(i).getSize() <3 && clusters.size()>1){
+                points.addAll(clusters.get(i).getPoints());
+                clusters.remove(i);
+                i--;
             }
+        }
+
+        for (Vertex2D vertex:
+             points) {
+
+            double minDist = Edge.MAX;
+            Cluster cluster = clusters.get(0);
+
+            for (Cluster c:
+                 clusters) {
+
+                if (c.getCentroid().distance(vertex.coord) < minDist){
+                    minDist =c.getCentroid().distance(vertex.coord);
+                    cluster = c;
+                }
+            }
+            cluster.addPoint(vertex);
         }
 
         return clusters;
@@ -125,7 +157,7 @@ public class KMeans {
         }
 
         clusters.remove(small);
-        target.addPoint(small.getPoints());
+        target.addPoints(small.getPoints());
 
     }
 

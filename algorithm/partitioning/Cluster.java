@@ -35,7 +35,7 @@ public class Cluster {
         return points.size();
     }
 
-    public void addPoint(List<Vertex2D> newPoints){
+    public void addPoints(List<Vertex2D> newPoints){
         points.addAll(newPoints);
     }
 
@@ -71,6 +71,10 @@ public class Cluster {
             }
         }
         return vertex2D;
+    }
+
+    public void addPoint(Vertex2D vertex){
+        points.add(vertex);
     }
 
     public void updateCentroid(){

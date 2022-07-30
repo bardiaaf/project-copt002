@@ -106,7 +106,8 @@ public class Main {
     public static Tour solve() throws IOException {
         if(instance.getDistanceTable().getClass().equals(NodeCoordinates.class))
             if(mode.equals("Q"))
-                return test_withCluster("FarthestInsertion", 100, 40, 3, 5, 10, 0.5);
+//                return test_withCluster("FarthestInsertion", 100, 40, 3, 5, 10, 0.5);
+                return test("FarthestInsertion", 100, 3, 5);
             else if(mode.equals("N"))
                 return test_withCluster("FarthestInsertion", 300, 50,4, 8, 20, 0.5);
             else return test_withCluster("FarthestInsertion", 500, 50, 5, 10, 20, 0.5);
@@ -114,9 +115,9 @@ public class Main {
             if(mode.equals("Q"))
                 return test("FarthestInsertion", 100,3,5);
             else if(mode.equals("N"))
-                return test("FarthestInsertion", 200,4,5);
+                return test("FarthestInsertion", 200,4,8);
             else
-                return test("FarthestInsertion", 500,5,5);
+                return test("FarthestInsertion", 500,5,10);
     }
 
     public static void represent(Tour tour) {

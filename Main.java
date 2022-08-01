@@ -2,7 +2,8 @@ import model.*;
 import org.moeaframework.problem.tsplib.NodeCoordinates;
 import org.moeaframework.problem.tsplib.TSPInstance;
 import org.moeaframework.problem.tsplib.TSPPanel;
-import solvers.PartitioningSolver;
+import solvers.MostPromisingSolver;
+import solvers.TourMergingSolver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,10 +52,10 @@ public class Main {
         Main.instance = new TSPInstance(new File(filePath));
         Main.startTime = System.currentTimeMillis();
     }
-
     public static void main(String[] args) throws IOException {
         getInput();
-        Tour tour = new PartitioningSolver(PartitioningSolver.Mode.fromString(mode)).solve(instance);
+        Tour tour = new MostPromisingSolver().solve(instance);
+//        Tour tour = new PartitioningSolver(PartitioningSolver.Mode.fromString(mode)).solve(instance);
         represent(tour);
 //        setArgs("ym7663",238314,"./data/tsp/"+name+".tsp");
 //        setFilePath("./data/tsp/"+name+".tsp");

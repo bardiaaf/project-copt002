@@ -2,6 +2,7 @@ package algorithm.tourGenerators;
 
 import model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LinKernighan extends TourGenerator {
@@ -33,13 +34,13 @@ public class LinKernighan extends TourGenerator {
         return res;
     }
 
-    // "l" is number of neighbors
-    public K_Exchange linKernighanIteration(Tour T, int k, int l) {
+    public K_Exchange parallelTourGeneration(int i0, int step, Tour T, int k, int l) {
         double bestGain = 0.0;
         K_Exchange best = null;
 
         // for each starting vertex v
-        for (Vertex vertex : graph.getVertices()) {
+        for (int i = i0; i < graph.getVertices().length; i += step) {
+            Vertex vertex = graph.getVertices()[i];
             K_Exchange stepResult = linKernighanFirst(T, k, l, vertex);
             if (stepResult.getGain() > bestGain) {
                 best = stepResult;
@@ -48,6 +49,51 @@ public class LinKernighan extends TourGenerator {
         }
         return best;
     }
+
+    public K_Exchange linKernighanIteration(Tour T, int k, int l) {
+        int cores = 4;
+        double bestGain = 0.0;
+        K_Exchange best = null;
+        K_Exchange[] res = new K_Exchange[cores];
+        List<Thread> threads = new ArrayList<>();
+        for(int i=0;i<cores;i++){
+            final int i0 = i;
+            threads.add(new Thread(() -> res[i0] = parallelTourGeneration(i0, cores, T, k, l)));
+            threads.get(i).start();
+        }
+        for(int i=0;i<cores;i++) {
+            try {
+                threads.get(i).join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        for(int i=0;i<cores;i++) {
+            if(res[i]==null)
+                continue;
+            if (res[i].getGain() > bestGain) {
+                best = res[i];
+                bestGain = best.getGain();
+            }
+        }
+        return best;
+    }
+
+    // "l" is number of neighbors
+//    public K_Exchange linKernighanIteration(Tour T, int k, int l) {
+//        double bestGain = 0.0;
+//        K_Exchange best = null;
+//
+//        // for each starting vertex v
+//        for (Vertex vertex : graph.getVertices()) {
+//            K_Exchange stepResult = linKernighanFirst(T, k, l, vertex);
+//            if (stepResult.getGain() > bestGain) {
+//                best = stepResult;
+//                bestGain = best.getGain();
+//            }
+//        }
+//        return best;
+//    }
 
     public K_Exchange linKernighanFirst(Tour T, int k, int l, Vertex first) {
         K_Exchange k1 = linKernighanSecond(T, k, l, first, T.next(first));

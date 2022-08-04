@@ -2,15 +2,16 @@ package model;
 
 import org.moeaframework.problem.tsplib.NodeCoordinates;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Graph {
     private Vertex[] vertices;
     private Edge[][] a;
     protected TreeMap<Vertex, List<Edge>> adj;
+    protected TreeMap<Vertex, List<Edge>> alphaNearness;
     private int size;
+
+    protected double[][] alpha;
 
     public Graph() {
     }
@@ -148,5 +149,102 @@ public class Graph {
 
     public Vertex getVertex(int id) {
         return vertices[id];
+    }
+
+    public OneTree minOneTree() {
+        return minOneTree(this.getRandomVertices(1)[0]);
+    }
+    public OneTree minOneTree(Vertex one) {
+        Tree tree = getMSTWithoutOne(one);
+        Edge e1 = null, e2 = null;
+        for(Vertex v: this.getVertices())
+            if(!v.equals(one)) {
+                Edge edge = getEdge(v, one);
+                if(e1 == null)
+                    e1 = edge;
+                else if(e1.weight > edge.weight) {
+                    e2 = e1;
+                    e1 = edge;
+                }
+                else if (e2 == null)
+                    e2 = edge;
+                else if (e2.weight > edge.weight)
+                    e2 = edge;
+            }
+        return new OneTree(e1, e2, one, tree);
+    }
+
+    protected Tree getMSTWithoutOne(Vertex one) {
+        TreeMap<Edge, Vertex> remaining = new TreeMap<>();
+        Vertex[] vs = this.getRandomVertices(2);
+        Vertex root = vs[0].equals(one)?vs[1]:vs[0];
+        Tree tree = new Tree(root);
+        for(Vertex vertex:getVertices())
+            if(!vertex.equals(root) && !vertex.equals(one))
+                remaining.put(getEdge(vertex, root), vertex);
+        List<Vertex> updatedVertices = new ArrayList<>();
+        List<Edge> updatedEdges = new ArrayList<>();
+        while (remaining.size() > 0) {
+            Vertex first = remaining.firstEntry().getValue();
+            Edge edge = remaining.firstEntry().getKey();
+            tree.add(edge.u.equals(first) ? edge.v : edge.u, first);
+            remaining.remove(remaining.firstEntry().getKey());
+            for (Map.Entry<Edge, Vertex> entry: remaining.entrySet()) {
+                if(entry.getKey().weight > getEdge(first, entry.getValue()).weight) {
+                    updatedVertices.add(entry.getValue());
+                    updatedEdges.add(entry.getKey());
+                }
+            }
+            for (int i = 0; i < updatedVertices.size(); i++) {
+                remaining.remove(updatedEdges.get(i));
+                remaining.put(getEdge(updatedVertices.get(i), first), updatedVertices.get(i));
+            }
+        }
+        return tree;
+    }
+
+    protected void calculateAlphaNearness() {
+        OneTree oneTree = minOneTree();
+        alpha = new double[vertices.length][vertices.length];
+        for (int i = 0; i < vertices.length; i++)
+            for (int j = 0; j < vertices.length; j++)
+                alpha[i][j] = 0;
+        for(Edge edge: adj.get(oneTree.one))
+            if(!edge.equals(oneTree.e1) && !edge.equals(oneTree.e2)) {
+                alpha[edge.v.id][edge.u.id] = edge.weight - oneTree.e2.weight;
+                alpha[edge.u.id][edge.v.id] = edge.weight - oneTree.e2.weight;
+            }
+        List<Vertex> seq = oneTree.getTree().getTopoSort();
+        for (int i = 0; i < seq.size(); i++) {
+            Vertex vi = seq.get(i);
+            alpha[vi.id][vi.id] = Edge.MAX;
+            for (int j = 0; j < i+1; j++) {
+                Vertex vj = seq.get(j);
+                Vertex parvj = oneTree.getTree().getPar(vj);
+                alpha[vi.id][vj.id] = getEdge(vi, vj).weight -
+                        Math.max(getEdge(vj, parvj).weight, getEdge(vj, parvj).weight-alpha[vi.id][parvj.id]);
+            }
+        }
+        for(Vertex vertex: vertices) {
+            alphaNearness.put(vertex, new ArrayList<>(adj.get(vertex)));
+            alphaNearness.get(vertex).sort((e1, e2) -> {
+                if(alpha[e1.v.id][e1.u.id]==alpha[e2.v.id][e2.u.id])
+                    return 0;
+                return (alpha[e1.v.id][e1.u.id]<alpha[e2.v.id][e2.u.id] ? -1: 1);
+            });
+        }
+    }
+
+    public List<Edge> nearestAlphaNeighbors(Vertex v, int l) {
+        List<Edge> result = new ArrayList<>();
+        List<Edge> tmp = alphaNearness.get(v);
+        if (tmp.size() <= l) {
+            result.addAll(tmp);
+            return result;
+        }
+
+        for (int i = 0; i < l; i++)
+            result.add(tmp.get(i));
+        return result;
     }
 }

@@ -10,8 +10,8 @@ public class Graph {
     protected TreeMap<Vertex, List<Edge>> adj;
     protected TreeMap<Vertex, List<Edge>> alphaNearness;
     private int size;
-
     protected double[][] alpha;
+    private boolean isAlphaComputed = false;
 
     public Graph() {
     }
@@ -119,6 +119,8 @@ public class Graph {
     }
 
     public List<Edge> nearestNeighbors(Vertex v, int l) {
+        if(isAlphaComputed)
+            return nearestAlphaNeighbors(v,l);
         List<Edge> result = new ArrayList<>();
         List<Edge> tmp = adj.get(v);
         if (tmp.size() <= l) {
@@ -204,6 +206,7 @@ public class Graph {
     }
 
     protected void calculateAlphaNearness() {
+        isAlphaComputed = true;
         OneTree oneTree = minOneTree();
         alpha = new double[vertices.length][vertices.length];
         for (int i = 0; i < vertices.length; i++)

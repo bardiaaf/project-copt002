@@ -1,8 +1,11 @@
 package algorithm.partitioning;
 
+import algorithm.tourGenerators.FarthestInsertion;
+import algorithm.tourGenerators.LinKernighan;
 import model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TourJoin {
@@ -69,15 +72,58 @@ public class TourJoin {
         return cluster;
     }
 
-    public static Tour joinClusterTours(Graph graph, List<Cluster> clusters) {
-        while (clusters.size() > 1) {
-            Cluster c1 = clusters.get(0);
-            Cluster c2 = findClosest(c1, clusters);
-            clusters.remove(c1);
-            clusters.remove(c2);
-            clusters.add(join(graph, c1, c2));
+//    public static Tour joinClusterTours(Graph graph, List<Cluster> clusters) {
+//        while (clusters.size() > 1) {
+//            Cluster c1 = clusters.get(0);
+//            Cluster c2 = findClosest(c1, clusters);
+//            clusters.remove(c1);
+//            clusters.remove(c2);
+//            clusters.add(join(graph, c1, c2));
+//        }
+//
+//        return clusters.get(0).getTour();
+//    }
+
+
+    public static Tour joinClusterTours(Graph graph, List<Cluster> clusters){
+        // getting centroids
+
+        int n = clusters.size();
+        List<Cluster> res = new ArrayList<>();
+
+        List<Point> centroids = new ArrayList<>();
+        for (Cluster cluster:
+             clusters) {
+            centroids.add(cluster.getCentroid());
+            res.add(cluster);
         }
 
-        return clusters.get(0).getTour();
+        Graph centroidGraph = new Graph(centroids);
+        LinKernighan tourGenerator = new LinKernighan(centroidGraph, new FarthestInsertion(graph));
+        Tour centroidTour = tourGenerator.generateTour(graph, 500, 5, 10);
+
+        Vertex vertex = centroidTour.getOneVertex(0);
+        int index =0;
+
+        while (true){
+           Cluster c1 =  clusters.get(index);
+           Vertex next = centroidTour.next(vertex);
+           if (next.id == 0)
+               break;
+
+           Cluster c2 = clusters.get(next.id);
+
+            res.remove(c1);
+            res.remove(c2);
+            res.add(join(graph, c1, c2));
+
+            vertex = next;
+            index = next.id;
+        }
+
+
+        return res.get(0).getTour();
     }
+
+
 }

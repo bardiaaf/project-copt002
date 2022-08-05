@@ -87,13 +87,11 @@ public class TourJoin {
 
     public static Tour joinClusterTours(Graph graph, List<Cluster> clusters){
         // getting centroids
-        List<Cluster> res = new ArrayList<>();
 
         List<Point> centroids = new ArrayList<>();
         for (Cluster cluster:
              clusters) {
             centroids.add(cluster.getCentroid());
-            res.add(cluster);
         }
 
         Graph centroidGraph = new Graph(centroids);
@@ -104,8 +102,9 @@ public class TourJoin {
         Vertex vertex = centroidTour.getOneVertex(0);
         int index =0;
 
+        Cluster currentCluster = clusters.get(index);
+
         while (true){
-           Cluster c1 =  clusters.get(index);
            Vertex next = centroidTour.next(vertex);
            if (next.id == 0)
                break;
@@ -113,16 +112,14 @@ public class TourJoin {
            System.out.println(next.id);
            Cluster c2 = clusters.get(next.id);
 
-            res.remove(c1);
-            res.remove(c2);
-            res.add(join(graph, c1, c2));
+
+            currentCluster = join(graph, currentCluster, c2);
 
             vertex = next;
-            index = next.id;
         }
 
 
-        return res.get(0).getTour();
+        return currentCluster.getTour();
     }
 
 

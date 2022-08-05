@@ -87,8 +87,6 @@ public class TourJoin {
 
     public static Tour joinClusterTours(Graph graph, List<Cluster> clusters){
         // getting centroids
-
-        int n = clusters.size();
         List<Cluster> res = new ArrayList<>();
 
         List<Point> centroids = new ArrayList<>();
@@ -99,8 +97,9 @@ public class TourJoin {
         }
 
         Graph centroidGraph = new Graph(centroids);
-        LinKernighan tourGenerator = new LinKernighan(centroidGraph, new FarthestInsertion(graph));
-        Tour centroidTour = tourGenerator.generateTour(graph, 500, 5, 10);
+        LinKernighan tourGenerator = new LinKernighan(centroidGraph, new FarthestInsertion(centroidGraph));
+        Tour centroidTour = tourGenerator.generateTour(centroidGraph, 500, 5, 10);
+
 
         Vertex vertex = centroidTour.getOneVertex(0);
         int index =0;
@@ -111,6 +110,7 @@ public class TourJoin {
            if (next.id == 0)
                break;
 
+           System.out.println(next.id);
            Cluster c2 = clusters.get(next.id);
 
             res.remove(c1);

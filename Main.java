@@ -55,6 +55,7 @@ public class Main {
     }
     public static void main(String[] args) throws IOException {
         getInput();
+//        Tour tour = new TourMergingSolver().solve(instance);
 //        Tour tour = new MostPromisingSolver().solve(instance);
         Tour tour = new PartitioningSolver(PartitioningSolver.Mode.fromString(mode)).solve(instance);
         represent(tour);

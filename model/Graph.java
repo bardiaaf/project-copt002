@@ -8,9 +8,10 @@ public class Graph {
     private Vertex[] vertices;
     private Edge[][] a;
     protected TreeMap<Vertex, List<Edge>> adj;
-    protected TreeMap<Vertex, List<Edge>> alphaNearness;
+    protected List<Edge>[] alphaNearness;
+    protected List<Double>[] alphaNearnessVals;
     private int size;
-    protected double[][] alpha;
+//    protected double[][] alpha;
     private boolean isAlphaComputed = false;
 
     public Graph() {
@@ -201,46 +202,61 @@ public class Graph {
                 remaining.remove(updatedEdges.get(i));
                 remaining.put(getEdge(updatedVertices.get(i), first), updatedVertices.get(i));
             }
+            updatedEdges.clear();
+            updatedVertices.clear();
         }
         return tree;
     }
 
-    protected void calculateAlphaNearness() {
+    public void calculateAlphaNearness() {
         isAlphaComputed = true;
         OneTree oneTree = minOneTree();
-        alpha = new double[vertices.length][vertices.length];
-        for (int i = 0; i < vertices.length; i++)
-            for (int j = 0; j < vertices.length; j++)
-                alpha[i][j] = 0;
+        alphaNearness = new ArrayList[vertices.length];
+        alphaNearnessVals = new ArrayList[vertices.length];
+        for(Vertex vertex: vertices) {
+            alphaNearnessVals[vertex.id] = new ArrayList<>();
+            alphaNearness[vertex.id] = new ArrayList<>();
+        }
         for(Edge edge: adj.get(oneTree.one))
             if(!edge.equals(oneTree.e1) && !edge.equals(oneTree.e2)) {
-                alpha[edge.v.id][edge.u.id] = edge.weight - oneTree.e2.weight;
-                alpha[edge.u.id][edge.v.id] = edge.weight - oneTree.e2.weight;
+                addToAlphaNearness(edge.v, edge,edge.weight - oneTree.e2.weight);
+                addToAlphaNearness(edge.u, edge, edge.weight - oneTree.e2.weight);
             }
+        addToAlphaNearness(oneTree.e1.v, oneTree.e1, 0);
+        addToAlphaNearness(oneTree.e1.u, oneTree.e1, 0);
+        addToAlphaNearness(oneTree.e2.u, oneTree.e2, 0);
+        addToAlphaNearness(oneTree.e2.v, oneTree.e2, 0);
         List<Vertex> seq = oneTree.getTree().getTopoSort();
+        double[] alpha = new double[vertices.length];
         for (int i = 0; i < seq.size(); i++) {
             Vertex vi = seq.get(i);
-            alpha[vi.id][vi.id] = Edge.MAX;
-            for (int j = 0; j < i+1; j++) {
+            alpha[vi.id] = Edge.MAX;
+            for (int j = i+1; j < seq.size(); j++) {
                 Vertex vj = seq.get(j);
                 Vertex parvj = oneTree.getTree().getPar(vj);
-                alpha[vi.id][vj.id] = getEdge(vi, vj).weight -
-                        Math.max(getEdge(vj, parvj).weight, getEdge(vj, parvj).weight-alpha[vi.id][parvj.id]);
+                alpha[vj.id] = getEdge(vi, vj).weight - Math.max(getEdge(vj, parvj).weight, getEdge(vj, parvj).weight-alpha[parvj.id]);
+                addToAlphaNearness(vi, getEdge(vi, vj), alpha[vj.id]);
+                addToAlphaNearness(vj, getEdge(vi, vj), alpha[vj.id]);
             }
         }
-        for(Vertex vertex: vertices) {
-            alphaNearness.put(vertex, new ArrayList<>(adj.get(vertex)));
-            alphaNearness.get(vertex).sort((e1, e2) -> {
-                if(alpha[e1.v.id][e1.u.id]==alpha[e2.v.id][e2.u.id])
-                    return 0;
-                return (alpha[e1.v.id][e1.u.id]<alpha[e2.v.id][e2.u.id] ? -1: 1);
-            });
+    }
+
+    private void addToAlphaNearness(Vertex v, Edge e, double alpha) {
+        if(alphaNearness[v.id].size()<15){
+            alphaNearness[v.id].add(e);
+            alphaNearnessVals[v.id].add(alpha);
         }
+        for(int i=0;i<alphaNearnessVals[v.id].size();i++)
+            if(alphaNearnessVals[v.id].get(i)>alpha) {
+                alphaNearnessVals[v.id].set(i, alpha);
+                alphaNearness[v.id].set(i, e);
+                break;
+            }
     }
 
     public List<Edge> nearestAlphaNeighbors(Vertex v, int l) {
         List<Edge> result = new ArrayList<>();
-        List<Edge> tmp = alphaNearness.get(v);
+        List<Edge> tmp = alphaNearness[v.id];
         if (tmp.size() <= l) {
             result.addAll(tmp);
             return result;

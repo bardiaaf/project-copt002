@@ -1,8 +1,11 @@
 package algorithm.partitioning;
 
+import algorithm.tourGenerators.FarthestInsertion;
+import algorithm.tourGenerators.LinKernighan;
 import model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TourJoin {
@@ -80,4 +83,39 @@ public class TourJoin {
 
         return clusters.get(0).getTour();
     }
+
+
+    public static Tour joinWithTour(Graph graph, List<Cluster> clusters){
+        // getting centroids
+        List<Point> centroids = new ArrayList<>();
+        for (Cluster cluster:
+             clusters) {
+            centroids.add(cluster.getCentroid());
+        }
+
+        Graph centroidGraph = new Graph(centroids);
+        LinKernighan tourGenerator = new LinKernighan(centroidGraph, new FarthestInsertion(graph));
+        Tour centroidTour = tourGenerator.generateTour(graph, 500, 5, 10);
+
+        Vertex vertex = centroidTour.getOneVertex(0);
+        int index = 0;
+
+        while (true){
+           Cluster c1 =  clusters.get(index);
+           Vertex next = centroidTour.next(vertex);
+           if (next.id == 0)
+               break;
+
+           Cluster c2 = clusters.get(next.id);
+
+            clusters.remove(c1);
+            clusters.remove(c2);
+            clusters.add(join(graph, c1, c2));
+        }
+
+
+        return clusters.get(0).getTour();
+    }
+
+
 }

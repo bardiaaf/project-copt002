@@ -92,4 +92,8 @@ public class Tour {
     public Graph getGraph() {
         return graph;
     }
+
+    public Vertex getOneVertex(int index){
+        return graph.getVertex(index);
+    }
 }

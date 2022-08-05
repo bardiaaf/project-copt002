@@ -18,7 +18,7 @@ public class MostPromisingSolver extends Solver {
         NearestNeighbor nearestNeighbor = new NearestNeighbor(graph);
         Tour nearest = nearestNeighbor.generateTour(graph);
         nearest = linKernighan.generateTour(graph, nearest, 100, 5, 10);
-        Tour clustering = getClusteringTour(instance, 100, 10, 5, 50, 0.5);
+        Tour clustering = getClusteringTour(graph, instance, 100, 10, 5, 50, 0.5);
         clustering = linKernighan.generateTour(graph, clustering, 50, 5, 10);
         Tour res;
         double clusteringWeight = clustering.tsplibFormat().distance(instance);

@@ -15,7 +15,7 @@ public class TourMergingSolver extends Solver {
         Tour farthest = farthestInsertion.generateTour(graph);
         NearestNeighbor nearestNeighbor = new NearestNeighbor(graph);
         Tour nearest = nearestNeighbor.generateTour(graph);
-        Tour clustering = getClusteringTour(instance, 50, 10, 5, 50, 0.5);
+        Tour clustering = getClusteringTour(graph, instance, 50, 10, 5, 50, 0.5);
         LinKernighan linKernighan = new LinKernighan(graph, farthestInsertion);
         Graph H = new Graph(farthest);
         H.add(nearest);

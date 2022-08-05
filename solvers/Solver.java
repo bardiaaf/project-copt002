@@ -37,11 +37,13 @@ public abstract class Solver {
         for (Cluster cluster:
                 clusters) {
             // set tours
-            SubGraph subGraph = new SubGraph(cluster, graph);
             //TODO: maybe farthest
+
+            SubGraph subGraph = new SubGraph(cluster, graph);
             LinKernighan tourGenerator = new LinKernighan(subGraph, new NearestNeighbor(subGraph));
             Tour tour = tourGenerator.generateTour(subGraph, innerRounds, k_linKernighan, l);
             cluster.setTour(tour);
+
         }
         return TourJoin.joinClusterTours(graph, clusters);
     }

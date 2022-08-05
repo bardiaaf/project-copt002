@@ -72,25 +72,30 @@ public class TourJoin {
         return cluster;
     }
 
-    public static Tour joinClusterTours(Graph graph, List<Cluster> clusters) {
-        while (clusters.size() > 1) {
-            Cluster c1 = clusters.get(0);
-            Cluster c2 = findClosest(c1, clusters);
-            clusters.remove(c1);
-            clusters.remove(c2);
-            clusters.add(join(graph, c1, c2));
-        }
+//    public static Tour joinClusterTours(Graph graph, List<Cluster> clusters) {
+//        while (clusters.size() > 1) {
+//            Cluster c1 = clusters.get(0);
+//            Cluster c2 = findClosest(c1, clusters);
+//            clusters.remove(c1);
+//            clusters.remove(c2);
+//            clusters.add(join(graph, c1, c2));
+//        }
+//
+//        return clusters.get(0).getTour();
+//    }
 
-        return clusters.get(0).getTour();
-    }
 
-
-    public static Tour joinWithTour(Graph graph, List<Cluster> clusters){
+    public static Tour joinClusterTours(Graph graph, List<Cluster> clusters){
         // getting centroids
+
+        int n = clusters.size();
+        List<Cluster> res = new ArrayList<>();
+
         List<Point> centroids = new ArrayList<>();
         for (Cluster cluster:
              clusters) {
             centroids.add(cluster.getCentroid());
+            res.add(cluster);
         }
 
         Graph centroidGraph = new Graph(centroids);
@@ -98,7 +103,7 @@ public class TourJoin {
         Tour centroidTour = tourGenerator.generateTour(graph, 500, 5, 10);
 
         Vertex vertex = centroidTour.getOneVertex(0);
-        int index = 0;
+        int index =0;
 
         while (true){
            Cluster c1 =  clusters.get(index);
@@ -108,13 +113,16 @@ public class TourJoin {
 
            Cluster c2 = clusters.get(next.id);
 
-            clusters.remove(c1);
-            clusters.remove(c2);
-            clusters.add(join(graph, c1, c2));
+            res.remove(c1);
+            res.remove(c2);
+            res.add(join(graph, c1, c2));
+
+            vertex = next;
+            index = next.id;
         }
 
 
-        return clusters.get(0).getTour();
+        return res.get(0).getTour();
     }
 
 

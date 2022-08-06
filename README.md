@@ -19,7 +19,12 @@ Parameters are picked by examining different values for every input to get best 
 
 | Data | Partition Ratio | Time| MostPromising Ratio | Time| TourMerging Ratio | Time|
 | ------------- | -------------| ----- | -------------|-----|------------|-----|
-| ca4663 | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
-| tz6117 | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
-| zi929  | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
-| nu3496 | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
+| ca4663 | 1.075  | 61 | Content Cell  | Content Cell  | dfv | 6 |
+| xqf131 | 1.067 |  1  | 1.033  | 3 | 1.06 | 6 |
+| xqg237 | 1.063 | 3 | Content Cell  | Content Cell  | 1.06 | 6 |
+| pma343  | 1.048 | 2 | Content Cell  | Content Cell  |
+| pka379 | 1.064  | 2 | Content Cell  | Content Cell  |
+| bcl380 | 1.085  | 3 | Content Cell  | Content Cell  |
+| nu3496 | 1.076  | 70 | Content Cell  | Content Cell  |
+| pka379 | 1.064  | 2 | Content Cell  | Content Cell  |
+

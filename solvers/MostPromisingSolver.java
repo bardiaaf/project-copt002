@@ -14,7 +14,7 @@ public class MostPromisingSolver extends Solver {
     int innerRounds = 100;
     int k = 5;
     int l = 10;
-    int k_cluster;
+    int k_cluster=16;
     double PRECISION = 0.5;
     int rounds2 = 100;
 

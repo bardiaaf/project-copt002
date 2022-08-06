@@ -12,7 +12,7 @@ public class TourMergingSolver extends Solver {
     int innerRounds = 50;
     int k = 5;
     int l = 10;
-    int k_cluster;
+    int k_cluster=15;
     double PRECISION = 0.5;
     int rounds2 = 100;
 

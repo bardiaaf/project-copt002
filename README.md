@@ -24,8 +24,7 @@ Parameters are picked by examining different values for every input to get best 
 | pma343  |   1.048 | 2 | 1.023  | 5  | 1.065 | 9 |
 | pka379 | 1.064  | 2 | 1.051  | 4  | 1.045 | 17 |
 | bcl380 | 1.085  | 3 | 1.047  | 4  | 1.088 | 12 |
-| nu3496 | 1.076  | 70 | Content Cell  | Content Cell  |
-| pka379 | 1.064  | 2 | Content Cell  | Content Cell  |
-| ca4663 |  1.075  | 61 | 1.067  | 248  | 1.091 | 166 |
+| nu3496 | 1.076  | 70 | 1.078  | 132  | 1.091 | 944 |
+| tz6117 | 1.066 | 133 | 1.067  | 630  |
 
 

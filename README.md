@@ -1,16 +1,15 @@
-In this project we used Lin-Kernighan algorithm and multiple methods of improvements introduced by LKH to solve TSP.The goal was to find a good approximation of the optimal tour for instances in efficient ways.
+In this project we used Lin-Kernighan algorithm and a variaty of its improvements to solve TSP. The goal was to find a good approximation of the optimal tour for instances in efficient ways.
 
 The project contains multiple improvements of the main algorithm like:
-- Simple Lin-Kernighan: which is the main algorithm itself which takes an initial tour constructed with simple methods like Farthest insertion and Nearest Neighbors, and using neighbors to find the next best edge to improve tour in every step.
-- Partitioning and Tour Join: In this method the problem is divided into clusters using K-Means clustering method and by finding tour for every cluster with simple lin-kernighan, then we will join these tours
-- Tour Merge: In this method we use multiple methods to produce some tours for the problem, using these tours we’ll construct a new graph and solve the TSP problem with lin-kernighan on this new graph.
-- Using  1-tree to find neighbors :  another improvement that is designed in this project is the method of finding neighbors using 1-tree definition to improve tour in every step and replace edges in lin-kernighan steps.
+- **Simple Lin-Kernighan:** Which is the main algorithm itself, which takes an initial tour constructed with simple methods like farthest insertion and nearest neighbors, to find the next best edge to improve tour in every step.
+- **Partitioning and Tour Join:** In this method the problem is divided into clusters using K-Means clustering method and by finding tour for every cluster with simple Lin-Kernighan, then we will join these tours
+- **Tour Merge:** In this method we use multiple methods to produce some tours for the problem, using these tours we will construct a new graph and solve the TSP problem with Lin-Kernighan on this new sparse graph.
+- **Using  alpha-nearness to find neighbors:**  Another improvement that is implemented in this project is the method of finding neighbors using alpha-nearness introduced by Heslgaun to choose the considered edges for replacement in the K-exchanges.
 
-How to implement this project:
-The Solver class and its children are designed to implement written algorithms.
+**Instructions**
+On running the program, you will be asked to enter the address and then the name of your .tsp instance of the problem. After that, you will be asked to choose between the following 3 solvers for the problem. In order to pick your choice, you must enter its first letter (the letter that is inside of the parantheses). 
+- **(P) PartitioningSolver:** In this case we solve the initial tour is built by clustering the points using k-means, then running Lin-Kernighan on each one of them and then joining them. Here we have 3 modes: Quick, Normal, and Complete. The most important difference between these modes is in the running time and accuracy that you are looking for. (Quick mode is not using partitioning in order to answer faster.) 
+- **(M) MostPromisingSolver:** This solver uses 3 ways to construct an initial tour “farthest insertion” , “nearest neighbors”, and “clustering”  for a limited number of steps and then uses the best of these tours to apply Lin-Kernighan for improvement.
+- **(T) TourMergingSolver:** This class uses the Tour Merge method explained above and then use Lin-Kernighan.
 
-- PartitioningSolver : In this class we have 3 modes for solving TSP Quick, Normal, and Complete.Which are different in input parameters of lin-kernighan and clustering.
-- MostPromisingSolver: This solver uses 3 ways to construct an initial tour “farthest insertion” , “nearest neighbors”, and “clustering”  until a limited step and then use the best of these tour to apply lin-kernighan for improvement.
-- TourMergingSolver: This class uses the Tour Merge method explained above and then use lin-kernighan.
-
-Parameters are picked by examining different values for every input to get best approximation and timing.
+Parameters are picked by examining different values for every input to get best approximation and timing. We have concluded from our own experiments that PartitioningSolver is doing better than the other solvers.

@@ -14,3 +14,12 @@ On running the program, you will be asked to enter the address and then the name
 - **(T) TourMergingSolver:** This class uses the Tour Merge method explained above and then use Lin-Kernighan.
 
 Parameters are picked by examining different values for every input to get best approximation and timing. We have concluded from our own experiments that PartitioningSolver is doing better than the other solvers.
+
+**RESULTS**
+
+| Data | Partition Ratio | MostPromising Ratio | TourMerging Ratio | Time|
+| ------------- | ------------- | -------------|------------|-----|
+| ca4663 | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
+| tz6117 | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
+| zi929  | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
+| nu3496 | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |

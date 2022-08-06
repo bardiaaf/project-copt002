@@ -2,9 +2,7 @@ import model.Tour;
 import org.moeaframework.problem.tsplib.TSPInstance;
 import solvers.MostPromisingSolver;
 import solvers.TourMergingSolver;
-
 import java.io.*;
-
 
 
 public class MLTest {
@@ -42,7 +40,6 @@ public class MLTest {
     }
 
     public static void main(String[] args) {
-
         String name = "ca4663";
         double best = 1290319;
         TSPInstance instance= null;

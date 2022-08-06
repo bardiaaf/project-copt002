@@ -24,11 +24,8 @@ public class TourMergingSolver extends Solver {
         this.l = l;
         this.k_cluster = k_cluster;
 //        this.PRECISION = PRECISION;
-
         rounds2 = rounds *2;
     }
-
-
 
     @Override
     public Tour solve(TSPInstance instance) {

@@ -7,7 +7,7 @@ The project contains multiple improvements of the main algorithm like:
 - **Using  alpha-nearness to find neighbors:**  Another improvement that is implemented in this project is the method of finding neighbors using alpha-nearness introduced by Heslgaun to choose the considered edges for replacement in the K-exchanges.
 
 **Instructions**
-On running the program, you will be asked to enter the address and then the name of your .tsp instance of the problem. After that, you will be asked to choose between the following 3 solvers for the problem. In order to pick your choice, you must enter its first letter (the letter that is inside of the parantheses). 
+  On running the program, you will be asked to enter the address and then the name of your .tsp instance of the problem. After that, you will be asked to choose between the following 3 solvers for the problem. In order to pick your choice, you must enter its first letter (the letter that is inside of the parantheses). 
 - **(P) PartitioningSolver:** In this case we solve the initial tour is built by clustering the points using k-means, then running Lin-Kernighan on each one of them and then joining them. Here we have 3 modes: Quick, Normal, and Complete. The most important difference between these modes is in the running time and accuracy that you are looking for. (Quick mode is not using partitioning in order to answer faster.) 
 - **(M) MostPromisingSolver:** This solver uses 3 ways to construct an initial tour “farthest insertion” , “nearest neighbors”, and “clustering”  for a limited number of steps and then uses the best of these tours to apply Lin-Kernighan for improvement.
 - **(T) TourMergingSolver:** This class uses the Tour Merge method explained above and then use Lin-Kernighan.

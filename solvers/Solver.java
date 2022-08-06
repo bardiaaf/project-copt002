@@ -20,13 +20,13 @@ public abstract class Solver {
     public static Tour getClusteringTour(Graph graph, TSPInstance problem, int innerRounds,
                                          int k_linKernighan, int l, int k_cluster, double PRECISION) {
         List<Vertex2D> allPoints = new ArrayList<>();
-        for(Vertex vertex: graph.getVertices())
+        for (Vertex vertex : graph.getVertices())
             allPoints.add((Vertex2D) vertex);
 
         // cluster
-        KMeans kMeans = new KMeans(k_cluster, PRECISION,allPoints);
+        KMeans kMeans = new KMeans(k_cluster, PRECISION, allPoints);
         List<Cluster> clusters = kMeans.kmMeans();
-        for (Cluster cluster:
+        for (Cluster cluster :
                 clusters) {
             // set tours
             SubGraph subGraph = new SubGraph(cluster, graph);
@@ -38,13 +38,13 @@ public abstract class Solver {
     }
 
     public static Tour solveWithClustering(TSPInstance problem, String secondaryTourGenerator, int rounds,
-                                        int innerRounds, int k_linKernighan, int l, int k_cluster, double PRECISION) {
+                                           int innerRounds, int k_linKernighan, int l, int k_cluster, double PRECISION) {
         DistanceTable distanceTable = problem.getDistanceTable();
         List<Point> points = Point.getPoints((NodeCoordinates) distanceTable);
         Graph graph = new Graph(points);
         Tour tour = getClusteringTour(graph, problem, innerRounds, k_linKernighan, l, k_cluster, PRECISION);
         graph.calculateAlphaNearness();
-        tour = new LinKernighan(graph, null).generateTour(graph, tour, rounds,k_linKernighan,l);
+        tour = new LinKernighan(graph, null).generateTour(graph, tour, rounds, k_linKernighan, l);
         return tour;
     }
 
@@ -57,8 +57,7 @@ public abstract class Solver {
         // lin kernighan
         if (secondaryTourGenerator.equals("FarthestInsertion")) {
             tourGenerator = new LinKernighan(graph, new FarthestInsertion(graph));
-        }
-        else{
+        } else {
             tourGenerator = new LinKernighan(graph, new NearestNeighbor(graph));
         }
         return tourGenerator.generateTour(graph, rounds, k_linKernighan, l);
@@ -67,13 +66,13 @@ public abstract class Solver {
     public static Graph createGraph(TSPInstance problem) {
         // init problem
         DistanceTable distanceTable = problem.getDistanceTable();
-        if(distanceTable.getClass().equals(NodeCoordinates.class))
+        if (distanceTable.getClass().equals(NodeCoordinates.class))
             return new Graph(Point.getPoints((NodeCoordinates) distanceTable));
         int n = distanceTable.listNodes().length;
 
         // create graph
         Edge[][] a = new Edge[n][n];
-        for (int i=0;i<n;i++) {
+        for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
                 int w = (int) distanceTable.getDistanceBetween(i + 1, j + 1);
                 a[i][j] = new Edge(new Vertex(i), new Vertex(j), w);

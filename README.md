@@ -13,9 +13,9 @@ On running the program, you will be asked to enter the address and then the name
 - **(M) MostPromisingSolver:** This solver uses 3 ways to construct an initial tour “farthest insertion” , “nearest neighbors”, and “clustering”  for a limited number of steps and then uses the best of these tours to apply Lin-Kernighan for improvement.
 - **(T) TourMergingSolver:** This class uses the Tour Merge method explained above and then use Lin-Kernighan.
 
-Parameters are picked by examining different values for every input to get best approximation and timing. We have concluded from our own experiments that PartitioningSolver is doing better than the other solvers.
+Parameters are picked by examining different values for every input to get best approximation and timing. 
 
-**RESULTS**
+**Results**
 
 | Data | Partition Ratio | Time| MostPromising Ratio | Time| TourMerging Ratio | Time|
 | :-------------: | :-------------:| :-----: | :-------------: | :-----: | :-----------: | :-----: |
@@ -31,4 +31,8 @@ Parameters are picked by examining different values for every input to get best 
 | pbm436 | 1.079 | 3 | 1.024 | 7 | 1.087 | 4 |
 | ca4663 | 1.073 | 57 | 1.067 | 243 |1.091 | 166 |
 
+
+**Analysis**
+
+It can be concluded from the results above that MostPromising solver is doing great for instances that are relevantltly small (i.e. less than 1000 vertices), however its running time increases dramatically for greater number of vertices. Thus, we can see that MostPromising solver is a great solver for instances with less than 1000 vertices, while Partitioning solver seems to be a better choice for larger graphs since it is noticeably faster on larger graphs.
 

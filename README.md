@@ -28,5 +28,6 @@ Parameters are picked by examining different values for every input to get best 
 | tz6117 | 1.066 | 133 | 1.067  | 630  | 1.09 | 1400 |
 | zi929 | 1.068 | 7 | 1.035 | 37 | 1.084 | 18 |
 | rw1621 | 1.078 | 25 | 1.069 | 42 | 1.1 | 30 |
+| pbm436 | 1.079 | 3 | 1.024 | 7 | 1.087 | 4 |
 
 

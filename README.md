@@ -34,5 +34,5 @@ Parameters are picked by examining different values for every input to get best 
 
 **Analysis**
 
-It can be concluded from the results above that MostPromising solver is doing better for instances that are relevantltly small (i.e. less than 1000 vertices), however its running time increases dramatically for greater number of vertices. Thus, we can see that MostPromising solver is a great solver for instances with less than 1000 vertices, while Partitioning solver seems to be a better choice for larger graphs since it is noticeably faster on larger graphs.
+It can be concluded from the results above that MostPromising solver is doing better for instances that are relevantly small (i.e. less than 1000 vertices), however its running time increases dramatically for greater number of vertices. Thus, we can see that MostPromising solver is a great solver for instances with less than 1000 vertices, while Partitioning solver seems to be a better choice for larger graphs since it is noticeably faster on larger graphs.
 

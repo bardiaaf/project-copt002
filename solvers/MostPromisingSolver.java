@@ -59,7 +59,7 @@ public class MostPromisingSolver extends Solver {
 
         final Tour[] clustering = {null};
         Thread t3 = new Thread(() -> {
-            clustering[0] = getClusteringTour(graph, instance, innerRounds, k*2, l, k_cluster, PRECISION);
+            clustering[0] = getClusteringTour(graph, instance, innerRounds, k+2, l, k_cluster, PRECISION);
             clustering[0] = linKernighan.generateTour(graph, clustering[0], rounds, k, l);
         });
         t3.start();

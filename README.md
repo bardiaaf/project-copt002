@@ -18,12 +18,12 @@ Parameters are picked by examining different values for every input to get best 
 **RESULTS**
 
 | Data | Partition Ratio | Time| MostPromising Ratio | Time| TourMerging Ratio | Time|
-| :-------------: | -------------| ----- | -------------|-----|------------|-----|
-| xqf131 |  1.067  |  1  | 1.033  | :3: | 1.06 | 6 |
+| :-------------: | :-------------:| :-----: | :-------------: | :-----: | :-----------: | :-----: |
+| xqf131 |  1.067  |  1  | 1.033  | 3 | 1.06 | 6 |
 | xqg237 |  1.063  | 3 | 1.062  |  3  | 1.07 | 3 |
 | pma343  |   1.048 | 2 | 1.023  | 5  | 1.065 | 9 |
 | pka379 | 1.064  | 2 | 1.051  | 4  | 1.045 | 17 |
-| bcl380 | 1.085  | 3 | Content Cell  | Content Cell  |
+| bcl380 | 1.085  | 3 | 1.047  | 4  | 1.088 | 12 |
 | nu3496 | 1.076  | 70 | Content Cell  | Content Cell  |
 | pka379 | 1.064  | 2 | Content Cell  | Content Cell  |
 | ca4663 |  1.075  | 61 | 1.067  | 248  | 1.091 | 166 |

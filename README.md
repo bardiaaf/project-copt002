@@ -17,8 +17,8 @@ Parameters are picked by examining different values for every input to get best 
 
 **RESULTS**
 
-| Data | Partition Ratio | MostPromising Ratio | TourMerging Ratio | Time|
-| ------------- | ------------- | -------------|------------|-----|
+| Data | Partition Ratio | Time| MostPromising Ratio | Time| TourMerging Ratio | Time|
+| ------------- | -------------| ----- | -------------|-----|------------|-----|
 | ca4663 | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
 | tz6117 | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |
 | zi929  | Content Cell  |  Content Cell  | Content Cell  | Content Cell  |

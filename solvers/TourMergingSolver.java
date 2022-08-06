@@ -16,6 +16,9 @@ public class TourMergingSolver extends Solver {
     double PRECISION = 0.5;
     int rounds2 = 100;
 
+    public TourMergingSolver() {
+        new TourMergingSolver(10, 50, 6, 15, 10);
+    }
 
     public TourMergingSolver(int rounds, int innerRounds, int k, int k_cluster, int l){
         this.rounds = rounds;

@@ -4,6 +4,7 @@ import org.moeaframework.problem.tsplib.TSPInstance;
 import org.moeaframework.problem.tsplib.TSPPanel;
 import solvers.MostPromisingSolver;
 import solvers.PartitioningSolver;
+import solvers.Solver;
 import solvers.TourMergingSolver;
 
 import javax.swing.*;
@@ -16,6 +17,7 @@ public class Main {
 
     static String name;
     static String mode;
+    static String solverName;
     static double best;
     static String filePath;
     static TSPInstance instance;
@@ -45,8 +47,12 @@ public class Main {
         String address = sc.nextLine();
         System.out.println("Please enter the test name: ");
         Main.name = sc.nextLine();
-        System.out.println("Enter search mode:\n(Q) Quick scan\n(N) Normal scan\n(C) Complete scan");
-        Main.mode = sc.nextLine();
+        System.out.println("Choose a solver:\n(P) Partitioning solver (recommended)\n(T) Tour-merging solver\n(M) Most-promising solver");
+        Main.solverName = sc.nextLine();
+        if(solverName.equals("P")) {
+            System.out.println("Enter search mode:\n(Q) Quick scan\n(N) Normal scan\n(C) Complete scan");
+            Main.mode = sc.nextLine();
+        }
         System.out.println("Please enter the optimal tour weight: (enter 0 if you are not sure)");
         Main.best = sc.nextDouble();
         Main.filePath = address+name+".tsp";
@@ -55,13 +61,14 @@ public class Main {
     }
     public static void main(String[] args) throws IOException {
         getInput();
-//        Tour tour = new TourMergingSolver().solve(instance);
-//        Tour tour = new MostPromisingSolver().solve(instance);
-        Tour tour = new PartitioningSolver(PartitioningSolver.Mode.fromString(mode)).solve(instance);
+        Tour tour;
+        if(solverName.equals("P"))
+            tour = new PartitioningSolver(PartitioningSolver.Mode.fromString(mode)).solve(instance);
+        else if(solverName.equals("T"))
+            tour = new TourMergingSolver().solve(instance);
+        else
+            tour = new MostPromisingSolver().solve(instance);
         represent(tour);
-//        setArgs("ym7663",238314,"./data/tsp/"+name+".tsp");
-//        setFilePath("./data/tsp/"+name+".tsp");
-//        setFilePath("./data/tsp/"+name+".tsp");
     }
 
 }

@@ -18,6 +18,9 @@ public class MostPromisingSolver extends Solver {
     double PRECISION = 0.5;
     int rounds2 = 100;
 
+    public MostPromisingSolver() {
+        new MostPromisingSolver(rounds, innerRounds, k, k_cluster, l);
+    }
 
     public MostPromisingSolver(int rounds, int innerRounds, int k, int k_cluster, int l){
         this.rounds = rounds;
@@ -42,7 +45,7 @@ public class MostPromisingSolver extends Solver {
             farthest[0] = farthestInsertion.generateTour(graph);
             farthest[0] = linKernighan.generateTour(graph, farthest[0], rounds, k, l);
         });
-        t1.run();
+        t1.start();
 
 
         final Tour[] nearest = {null};
@@ -51,7 +54,7 @@ public class MostPromisingSolver extends Solver {
             nearest[0] = nearestNeighbor.generateTour(graph);
             nearest[0] = linKernighan.generateTour(graph, nearest[0], rounds, k, l);
         });
-        t2.run();
+        t2.start();
 
 
         final Tour[] clustering = {null};
@@ -59,8 +62,15 @@ public class MostPromisingSolver extends Solver {
             clustering[0] = getClusteringTour(graph, instance, innerRounds, k*2, l, k_cluster, PRECISION);
             clustering[0] = linKernighan.generateTour(graph, clustering[0], rounds, k, l);
         });
-        t3.run();
+        t3.start();
 
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         Tour res;
         double clusteringWeight = clustering[0].tsplibFormat().distance(instance);

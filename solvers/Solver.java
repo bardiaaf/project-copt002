@@ -19,49 +19,31 @@ public abstract class Solver {
 
     public static Tour getClusteringTour(Graph graph, TSPInstance problem, int innerRounds,
                                          int k_linKernighan, int l, int k_cluster, double PRECISION) {
-        long startTime = System.currentTimeMillis();
-        // init problem
-//        DistanceTable distanceTable = problem.getDistanceTable();
-
-//        List<Point> points = Point.getPoints((NodeCoordinates) distanceTable);
-
         List<Vertex2D> allPoints = new ArrayList<>();
         for(Vertex vertex: graph.getVertices())
             allPoints.add((Vertex2D) vertex);
 
-//        for (int i=0;i<points.size();i++) {
-//            allPoints.add(new Vertex2D(i, points.get(i).x, points.get(i).y));
-//        }
-
         // cluster
         KMeans kMeans = new KMeans(k_cluster, PRECISION,allPoints);
         List<Cluster> clusters = kMeans.kmMeans();
-        System.err.println(">K-means done: "+(System.currentTimeMillis()-startTime)/1000L);
-//        Graph graph = new Graph(points);
         for (Cluster cluster:
                 clusters) {
             // set tours
-            //TODO: maybe farthest
             SubGraph subGraph = new SubGraph(cluster, graph);
             LinKernighan tourGenerator = new LinKernighan(subGraph, new NearestNeighbor(subGraph));
             Tour tour = tourGenerator.generateTour(subGraph, innerRounds, k_linKernighan, l);
             cluster.setTour(tour);
         }
-        System.err.println(">clusters tours calc done: "+(System.currentTimeMillis()-startTime)/1000L);
         return TourJoin.joinClusterTours(graph, clusters);
     }
 
     public static Tour solveWithClustering(TSPInstance problem, String secondaryTourGenerator, int rounds,
                                         int innerRounds, int k_linKernighan, int l, int k_cluster, double PRECISION) {
-        long stTime = System.currentTimeMillis();
         DistanceTable distanceTable = problem.getDistanceTable();
         List<Point> points = Point.getPoints((NodeCoordinates) distanceTable);
         Graph graph = new Graph(points);
-        System.err.println("graph made: "+(System.currentTimeMillis()-stTime)/1000L);
         Tour tour = getClusteringTour(graph, problem, innerRounds, k_linKernighan, l, k_cluster, PRECISION);
-        System.err.println("initial tour made: "+(System.currentTimeMillis()-stTime)/1000L);
         graph.calculateAlphaNearness();
-        System.err.println("alpha calculated: "+(System.currentTimeMillis()-stTime)/1000L);
         tour = new LinKernighan(graph, null).generateTour(graph, tour, rounds,k_linKernighan,l);
         return tour;
     }

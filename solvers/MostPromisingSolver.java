@@ -7,12 +7,28 @@ import model.Graph;
 import model.Tour;
 import org.moeaframework.problem.tsplib.TSPInstance;
 
+import java.awt.event.PaintEvent;
+
 public class MostPromisingSolver extends Solver {
-    int rounds = 100;
-    int innerRounds;
-    int k;
+    int rounds = 50;
+    int innerRounds = 100;
+    int k = 5;
+    int l = 10;
     int k_cluster;
     double PRECISION = 0.5;
+    int rounds2 = 100;
+
+
+    public MostPromisingSolver(int rounds, int innerRounds, int k, int k_cluster, int l){
+        this.rounds = rounds;
+        this.innerRounds = innerRounds;
+        this.k = k;
+        this.l = l;
+        this.k_cluster = k_cluster;
+//        this.PRECISION = PRECISION;
+
+        rounds2 = rounds *2;
+    }
 
     @Override
     public Tour solve(TSPInstance instance) {
@@ -20,22 +36,42 @@ public class MostPromisingSolver extends Solver {
 
         FarthestInsertion farthestInsertion = new FarthestInsertion(graph);
         LinKernighan linKernighan = new LinKernighan(graph, farthestInsertion);
-        Tour farthest = farthestInsertion.generateTour(graph);
-        farthest = linKernighan.generateTour(graph, farthest, 100, 5, 10);
-        NearestNeighbor nearestNeighbor = new NearestNeighbor(graph);
-        Tour nearest = nearestNeighbor.generateTour(graph);
-        nearest = linKernighan.generateTour(graph, nearest, 100, 5, 10);
-        Tour clustering = getClusteringTour(graph, instance, 100, 10, 5, 50, PRECISION);
-        clustering = linKernighan.generateTour(graph, clustering, 50, 5, 10);
+
+        final Tour[] farthest = {null};
+        Thread t1 = new Thread(() -> {
+            farthest[0] = farthestInsertion.generateTour(graph);
+            farthest[0] = linKernighan.generateTour(graph, farthest[0], rounds, k, l);
+        });
+        t1.run();
+
+
+        final Tour[] nearest = {null};
+        Thread t2 = new Thread(() -> {
+            NearestNeighbor nearestNeighbor = new NearestNeighbor(graph);
+            nearest[0] = nearestNeighbor.generateTour(graph);
+            nearest[0] = linKernighan.generateTour(graph, nearest[0], rounds, k, l);
+        });
+        t2.run();
+
+
+        final Tour[] clustering = {null};
+        Thread t3 = new Thread(() -> {
+            clustering[0] = getClusteringTour(graph, instance, innerRounds, k*2, l, k_cluster, PRECISION);
+            clustering[0] = linKernighan.generateTour(graph, clustering[0], rounds, k, l);
+        });
+        t3.run();
+
+
         Tour res;
-        double clusteringWeight = clustering.tsplibFormat().distance(instance);
-        double nearestWeight = nearest.tsplibFormat().distance(instance);
-        double farthestWeight = farthest.tsplibFormat().distance(instance);
+        double clusteringWeight = clustering[0].tsplibFormat().distance(instance);
+        double nearestWeight = nearest[0].tsplibFormat().distance(instance);
+        double farthestWeight = farthest[0].tsplibFormat().distance(instance);
         if(clusteringWeight <= Math.min(nearestWeight, farthestWeight))
-            res = clustering;
+            res = clustering[0];
         else if(nearestWeight <= farthestWeight)
-            res = nearest;
-        else res = farthest;
+            res = nearest[0];
+        else res = farthest[0];
+
         return linKernighan.generateTour(graph, res, 300, 5, 10);
     }
 }

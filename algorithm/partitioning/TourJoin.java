@@ -109,7 +109,6 @@ public class TourJoin {
            if (next.id == 0)
                break;
 
-           System.out.println(next.id);
            Cluster c2 = clusters.get(next.id);
 
 

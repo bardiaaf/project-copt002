@@ -17,7 +17,7 @@ Parameters are picked by examining different values for every input to get best 
 
 **Results**
 
-| Data | Partition Ratio | Time(s)| MostPromising Ratio | Time(s) | TourMerging Ratio | Time(s) | Best |
+| Data | Partition Ratio | Time(s)| MostPromising Ratio | Time(s) | TourMerging Ratio | Time(s) | Best Approximation Factor |
 | :-------------: | :-------------:| :-----: | :-------------: | :-----: | :-----------: | :-----: | :--: |
 | xqf131 |  1.067  |  1  | 1.033  | 3 | 1.06 | 6 | 1.033 |
 | xqg237 |  1.063  | 3 | 1.062  |  3  | 1.07 | 3 | 1.062 |

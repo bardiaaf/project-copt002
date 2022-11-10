@@ -31,6 +31,8 @@ Parameters are picked by examining different values for every input to get best 
 | pbm436 | 1.079 | 3 | 1.024 | 7 | 1.087 | 4 | 1.024 |
 | ca4663 | 1.073 | 57 | 1.067 | 243 |1.091 | 166 | 1.067 |
 
+We performed all our tests on a 1.4 GHz Quad-Core Intel Core i5 processor. We have limited our usage of virtual memory to 8 GBs.
+
 
 **Analysis**
 
